@@ -67,6 +67,9 @@ map('i', '<C-A>', '<ESC>I')
 -- Tav to switch Buffers
 map("n", "<TAB>", ":bnext<CR>")
 map("n", "<S-TAB>", ":bprevious<CR>")
+-- Better Tabbing, Stay in indent mode
+map("v", "<", "<gv")
+map("v", ">", ">gv")
 
 -- PLUGINS
 local packer_bootstrap = false
@@ -104,16 +107,9 @@ return packer.startup(function(use)
   use {
     'nvim-lualine/lualine.nvim',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
-    config = function()
-      require('lualine').setup()
-    end
+    config = function() require('lualine').setup() end
   }
-  use {
-    "akinsho/bufferline.nvim",
-    config = function()
-      require('bufferline').setup()
-    end
-  }
+  use { "akinsho/bufferline.nvim", config = function() require('bufferline').setup() end }
 
   -- Treesitter
   use {
@@ -121,24 +117,18 @@ return packer.startup(function(use)
     requires = { "windwp/nvim-ts-autotag", "p00f/nvim-ts-rainbow" },
     config = function()
       require("nvim-treesitter.configs").setup {
-        highlight = { enable = true, disable = { "" }, additional_vim_regex_highlighting = true },
-        autopairs = { enable = true },
-        autotag = { enable = true },
-        rainbow = { enable = true, extended_mode = false, max_file_lines = nil },
-      }
+        highlight = { enable = true, disable = { "" }, additional_vim_regex_highlighting = true }, autopairs = { enable = true }, autotag = { enable = true }, rainbow = { enable = true, extended_mode = false, max_file_lines = nil } }
     end
   }
-  use { "windwp/nvim-autopairs", config = "require('nvim-autopairs').setup()" }
+  use { "windwp/nvim-autopairs", config = function() require('nvim-autopairs').setup() end }
 
   -- MVimTree
   use {
     "kyazdani42/nvim-tree.lua",
-    config = function()
-      require('nvim-tree').setup()
-    end
+    config = function() require('nvim-tree').setup() end
   }
 
-  use { "lewis6991/gitsigns.nvim", config = "require('gitsigns').setup()" } 
+  use { "lewis6991/gitsigns.nvim", config = function() require('gitsigns').setup() end } 
 
   if packer_bootstrap then
     require("packer").sync()
