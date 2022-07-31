@@ -36,6 +36,7 @@ o.textwidth = 300
 o.tabstop = 2
 o.shiftwidth = 2
 o.softtabstop = -1 -- If negative, shiftwidth value is used
+o.showmode = false
 o.list = true
 o.whichwrap = "b,s,<,>,[,],h,l"
 o.listchars = 'trail:·,nbsp:◇,tab:→ ,extends:▸,precedes:◂'
