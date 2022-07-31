@@ -17,7 +17,7 @@ o.timeoutlen = 500
 o.updatetime = 200
 
 -- Number of screen lines to keep above and below the cursor
-o.scrolloff = 8
+o.scrolloff = 3
 
 -- Better editor UI
 o.number = true
@@ -33,8 +33,8 @@ o.cindent = true
 o.autoindent = true
 o.wrap = false
 o.textwidth = 300
-o.tabstop = 4
-o.shiftwidth = 4
+o.tabstop = 2
+o.shiftwidth = 2
 o.softtabstop = -1 -- If negative, shiftwidth value is used
 o.list = true
 o.whichwrap = "b,s,<,>,[,],h,l"
@@ -80,7 +80,7 @@ g.mapleader = ' '
 g.maplocalleader = ' '
 
 -- COLORSCHEMES
-local ok, _ = pcall(vim.cmd, 'colorscheme palenight')
+local ok, _ = pcall(vim.cmd, 'colorscheme base16-onedark')
 
 -- Highlight the region on yank
 A.nvim_create_autocmd('TextYankPost', {
@@ -98,6 +98,10 @@ end
 -- Mimic shell movements
 map('i', '<C-E>', '<ESC>A')
 map('i', '<C-A>', '<ESC>I')
+
+-- Buffers
+map("n", "<TAB>", ":bnext<CR>")
+map("n", "<S-TAB>", ":bprevious<CR>")
 
 
 -- PLUGINS
@@ -126,7 +130,6 @@ packer.init({
 })
 
 return packer.startup(function(use)
--- return require('packer').startup(function()
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
 
@@ -135,6 +138,10 @@ return packer.startup(function(use)
     'nvim-lualine/lualine.nvim',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
     config = "require('lualine').setup()"
+  }
+  use {
+    "akinsho/bufferline.nvim",
+    config = "require('bufferline').setup()"
   }
 
   -- File management --
@@ -158,7 +165,7 @@ return packer.startup(function(use)
   use 'junegunn/vim-emoji'
 
   -- Colorschemes
-  use 'kyazdani42/nvim-palenight.lua'
+  use 'RRethy/nvim-base16'
 
   -- Other stuff
   use 'frazrepo/vim-rainbow'
