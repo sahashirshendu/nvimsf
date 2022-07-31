@@ -3,9 +3,9 @@
 ## Installation
 Install `neovim` with:
 ```bash
-sudo pacman -S neovim
-sudo apt install neovim
-sudo dnf install -y neovim python3-neovim
+sudo pacman -S neovim # Arch and derivatives
+sudo apt install neovim # Debian and derivatives
+sudo dnf install -y neovim python3-neovim # Fedora
 ```
 For details, see: [Installing NeoVim](https://github.com/neovim/neovim/wiki/Installing-Neovim)
 
