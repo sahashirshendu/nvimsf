@@ -1,0 +1,29 @@
+# NeoVim Configuration
+
+## Installation
+Install `neovim` with:
+```bash
+sudo pacman -S neovim
+sudo apt install neovim
+sudo dnf install -y neovim python3-neovim
+```
+For details, see: [Installing NeoVim](https://github.com/neovim/neovim/wiki/Installing-Neovim)
+
+For installing the config,
+```bash
+git clone https://github.com/sahashirshendu/nvimsf.git ~/.config.nvim
+```
+
+## Usage
+Run neovim with `neovim`.
+Learn the basics of (Neo)Vim by running `:Tutor`.
+Just for info, to quit `neovim` enter `ZZ` or `:q`.
+On first run, to sync the plugins, enter `:PackerSync`.
+
+### Some Shortcuts used in this config:
+| Shortcut  | Function     |
+| --------- | ------------ |
+|`Space + w`| Write file   |
+|`Space + q`| Quit file    |
+|`Space + s`| Sync plugins |
+|`Space + k`| Comment      |
