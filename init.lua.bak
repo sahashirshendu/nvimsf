@@ -1,6 +1,3 @@
--- Config was built using the following config:
--- https://github.com/numToStr/dotfiles/tree/master/neovim/.config/nvim/
-
 local g   = vim.g
 local o   = vim.o
 local opt = vim.opt
@@ -165,4 +162,3 @@ return require('packer').startup(function()
   -- Other stuff
   use 'frazrepo/vim-rainbow'
 end)
-
