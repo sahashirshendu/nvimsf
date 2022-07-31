@@ -15,6 +15,6 @@ On first run, to sync the plugins, enter `:PackerSync`.
 | Shortcut  | Function     |
 | --------- | ------------ |
 |`Space + w`| Write file   |
-|`Space + s`| Quit file    |
+|`Space + q`| Quit file    |
 |`Space + s`| Sync plugins |
 |`Space + k`| Comment      |
