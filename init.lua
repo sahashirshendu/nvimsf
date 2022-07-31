@@ -1,7 +1,6 @@
 -- OPTIONS
 local g = vim.g
 local o = vim.opt
-local A = vim.api
 
 o.termguicolors = true
 -- o.background = 'dark'
@@ -47,14 +46,6 @@ g.maplocalleader = ' '
 
 -- COLORSCHEMES
 local ok, _ = pcall(vim.cmd, 'colorscheme base16-onedark')
-
--- Highlight the region on yank
-A.nvim_create_autocmd('TextYankPost', {
-    group = num_au,
-    callback = function()
-        vim.highlight.on_yank({ higroup = 'Visual', timeout = 120 })
-    end,
-})
 
 -- KEYBINDINGS
 local function map(m, k, v)
