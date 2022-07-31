@@ -1,32 +1,18 @@
-local g   = vim.g
-local o   = vim.o
-local opt = vim.opt
-local A   = vim.api
-
--- cmd('syntax on')
--- vim.api.nvim_command('filetype plugin indent on')
+-- OPTIONS
+local g = vim.g
+local o = vim.opt
+local A = vim.api
 
 o.termguicolors = true
 -- o.background = 'dark'
-
--- Do not save when switching buffers
 -- o.hidden = true
-
--- Decrease update time
 o.timeoutlen = 500
 o.updatetime = 200
-
--- Number of screen lines to keep above and below the cursor
-o.scrolloff = 3
-
--- Better editor UI
-o.number = true
-o.numberwidth = 2
-o.relativenumber = false
+o.scrolloff = 3 -- Number of screen lines to keep above and below the cursor
+o.number = true -- Line Number
+o.relativenumber = false -- Relative line number
 o.signcolumn = 'yes'
 o.cursorline = true
-
--- Better editing experience
 o.expandtab = true
 o.smarttab = true
 o.cindent = true
@@ -42,39 +28,18 @@ o.whichwrap = "b,s,<,>,[,],h,l"
 o.listchars = 'trail:·,nbsp:◇,tab:→ ,extends:▸,precedes:◂'
 -- o.listchars = 'eol:¬,space:·,lead: ,trail:·,nbsp:◇,tab:→-,extends:▸,precedes:◂,multispace:···⬝,leadmultispace:│   ,'
 -- o.formatoptions = 'qrn1'
-
--- Makes neovim and host OS clipboard play nicely with each other
-o.clipboard = 'unnamedplus'
-
--- Case insensitive searching UNLESS /C or capital in search
+o.clipboard = 'unnamedplus' -- Make the clipboard operations doable
 o.ignorecase = true
 o.smartcase = true
-
--- Undo and backup options
 o.backup = false
 o.writebackup = false
-o.undofile = true
+o.undofile = false
 o.swapfile = false
--- o.backupdir = '/tmp/'
--- o.directory = '/tmp/'
--- o.undodir = '/tmp/'
-
--- Remember 50 items in commandline history
-o.history = 50
-
--- Better buffer splitting
+o.history = 100
 o.splitright = true
 o.splitbelow = true
-
--- Preserve view while jumping
--- BUG This option causes an error!
--- o.jumpoptions = 'view'
-
--- BUG: this won't update the search count after pressing `n` or `N`
--- When running macros and regexes on a large file, lazy redraw tells neovim/vim not to draw the screen
 -- o.lazyredraw = true
-
-opt.mouse = "a"
+o.mouse = "a"
 
 -- Map <leader> to space
 g.mapleader = ' '
@@ -99,11 +64,9 @@ end
 -- Mimic shell movements
 map('i', '<C-E>', '<ESC>A')
 map('i', '<C-A>', '<ESC>I')
-
--- Buffers
+-- Tav to switch Buffers
 map("n", "<TAB>", ":bnext<CR>")
 map("n", "<S-TAB>", ":bprevious<CR>")
-
 
 -- PLUGINS
 local packer_bootstrap = false
@@ -134,42 +97,48 @@ return packer.startup(function(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
 
-  -- A better status line
-  use {
-    'nvim-lualine/lualine.nvim',
-    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
-    config = "require('lualine').setup()"
-  }
-  use {
-    "akinsho/bufferline.nvim",
-    config = "require('bufferline').setup()"
-  }
-
-  -- File management --
-  use 'vifm/vifm.vim'
-  use 'scrooloose/nerdtree'
-  use 'tiagofumo/vim-nerdtree-syntax-highlight'
-  use 'ryanoasis/vim-devicons'
-
-  -- Tim Pope Plugins --
-  use 'tpope/vim-surround'
-
-  -- Syntax Highlighting and Colors --
-  use 'PotatoesMaster/i3-vim-syntax'
-  use 'kovetskiy/sxhkd-vim'
-  use 'vim-python/python-syntax'
-  use 'ap/vim-css-color'
-
-  -- Junegunn Choi Plugins --
-  use 'junegunn/goyo.vim'
-  use 'junegunn/limelight.vim'
-  use 'junegunn/vim-emoji'
-
   -- Colorschemes
   use 'RRethy/nvim-base16'
 
-  -- Other stuff
-  use 'frazrepo/vim-rainbow'
+  -- Statusline
+  use {
+    'nvim-lualine/lualine.nvim',
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+    config = function()
+      require('lualine').setup()
+    end
+  }
+  use {
+    "akinsho/bufferline.nvim",
+    config = function()
+      require('bufferline').setup()
+    end
+  }
+
+  -- Treesitter
+  use {
+    "nvim-treesitter/nvim-treesitter", run = ":TSUpdate",
+    requires = { "windwp/nvim-ts-autotag", "p00f/nvim-ts-rainbow" },
+    config = function()
+      require("nvim-treesitter.configs").setup {
+        highlight = { enable = true, disable = { "" }, additional_vim_regex_highlighting = true },
+        autopairs = { enable = true },
+        autotag = { enable = true },
+        rainbow = { enable = true, extended_mode = false, max_file_lines = nil },
+      }
+    end
+  }
+  use { "windwp/nvim-autopairs", config = "require('nvim-autopairs').setup()" }
+
+  -- MVimTree
+  use {
+    "kyazdani42/nvim-tree.lua",
+    config = function()
+      require('nvim-tree').setup()
+    end
+  }
+
+  use { "lewis6991/gitsigns.nvim", config = "require('gitsigns').setup()" } 
 
   if packer_bootstrap then
     require("packer").sync()
