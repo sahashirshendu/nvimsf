@@ -79,8 +79,6 @@ opt.mouse = "a"
 g.mapleader = ' '
 g.maplocalleader = ' '
 
-require('lualine').setup()
-
 -- COLORSCHEMES
 local ok, _ = pcall(vim.cmd, 'colorscheme palenight')
 
@@ -135,7 +133,8 @@ return packer.startup(function(use)
   -- A better status line
   use {
     'nvim-lualine/lualine.nvim',
-    requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+    config = "require('lualine').setup()"
   }
 
   -- File management --
