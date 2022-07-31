@@ -117,10 +117,7 @@ return packer.startup(function(use)
   }
   use { "windwp/nvim-autopairs", config = function() require('nvim-autopairs').setup() end }
   -- NVimTree
-  use {
-    "kyazdani42/nvim-tree.lua",
-    config = function() require('nvim-tree').setup() end
-  }
+  use { "kyazdani42/nvim-tree.lua", config = function() require('nvim-tree').setup() end }
   -- Git
   use { "lewis6991/gitsigns.nvim", config = function() require('gitsigns').setup() end }
   -- Comment
