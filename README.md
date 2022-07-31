@@ -1,6 +1,15 @@
 # NeoVim Configuration
 
 ## Installation
+Install `neovim` with:
+```bash
+sudo pacman -S neovim
+sudo apt install neovim
+sudo dnf install -y neovim python3-neovim
+```
+For details, see: [Installing NeoVim](https://github.com/neovim/neovim/wiki/Installing-Neovim)
+
+For installing the config,
 ```bash
 git clone https://gitlab.com/shirshendusaha/nvimsf.git ~/.config.nvim
 ```
