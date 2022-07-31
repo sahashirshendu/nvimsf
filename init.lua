@@ -22,7 +22,7 @@ o.scrolloff = 8
 -- Better editor UI
 o.number = true
 o.numberwidth = 2
-o.relativenumber = true
+o.relativenumber = false
 o.signcolumn = 'yes'
 o.cursorline = true
 
@@ -162,3 +162,4 @@ return require('packer').startup(function()
   -- Other stuff
   use 'frazrepo/vim-rainbow'
 end)
+
