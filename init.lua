@@ -70,6 +70,13 @@ map("n", "<S-TAB>", ":bprevious<CR>")
 -- Better Tabbing, Stay in indent mode
 map("v", "<", "<gv")
 map("v", ">", ">gv")
+-- Leader
+map('n', '<leader>w', ':w<CR>')
+map('n', '<leader>q', ':q<CR>')
+map('n', '<leader>s', ':PackerSync<CR>')
+map('n', '<leader>k', ':CommentToggle<CR>')
+map('v', '<leader>k', ':CommentToggle<CR>')
+map('n', '<leader>e', ':NvimTreeToggle<CR>')
 
 -- PLUGINS
 local packer_bootstrap = false
@@ -81,7 +88,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
   vim.cmd[[packadd packer.nvim]]
 end
 
-vim.cmd("autocmd BufWritePost init.lua source <afile> | PackerSync")
+vim.cmd("autocmd BufWritePost init.lua source <afile> | PackerCompile")
 
 local status_ok, packer = pcall(require, "packer")
 if not status_ok then
@@ -99,10 +106,8 @@ packer.init({
 return packer.startup(function(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
-
   -- Colorschemes
   use 'RRethy/nvim-base16'
-
   -- Statusline
   use {
     'nvim-lualine/lualine.nvim',
@@ -110,7 +115,6 @@ return packer.startup(function(use)
     config = function() require('lualine').setup() end
   }
   use { "akinsho/bufferline.nvim", config = function() require('bufferline').setup() end }
-
   -- Treesitter
   use {
     "nvim-treesitter/nvim-treesitter", run = ":TSUpdate",
@@ -121,14 +125,15 @@ return packer.startup(function(use)
     end
   }
   use { "windwp/nvim-autopairs", config = function() require('nvim-autopairs').setup() end }
-
-  -- MVimTree
+  -- NVimTree
   use {
     "kyazdani42/nvim-tree.lua",
     config = function() require('nvim-tree').setup() end
   }
-
-  use { "lewis6991/gitsigns.nvim", config = function() require('gitsigns').setup() end } 
+  -- Git
+  use { "lewis6991/gitsigns.nvim", config = function() require('gitsigns').setup() end }
+  -- Comment
+  use { "terrortylor/nvim-comment", config = function() require('nvim_comment').setup({ comment_empty = false }) end }
 
   if packer_bootstrap then
     require("packer").sync()
