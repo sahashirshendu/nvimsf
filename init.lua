@@ -103,7 +103,13 @@ return packer.startup(function(use)
   use {
     'nvim-lualine/lualine.nvim',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
-    config = function() require('lualine').setup() end
+    config = function()
+      require('lualine').setup({
+        options = { theme = 'auto', icons_enabled = true, component_separators = "|", section_separators = { left = "", right = "" } },
+        sections = { lualine_a = { "mode" }, lualine_b = { "filename" }, lualine_c = { "branch" }, lualine_x = { "fileformat", "encoding", "filetype" }, lualine_y = { }, lualine_z = { { "location", separator = { left = "", right = "" }, left_padding = 2 } } },
+        extensions = { "nvim-tree" },
+      })
+    end
   }
   use { "akinsho/bufferline.nvim", config = function() require('bufferline').setup() end }
   -- Treesitter
