@@ -26,4 +26,4 @@ On first run, to sync the plugins, enter `:PackerSync`.
 |`Space + w`| Write file   |
 |`Space + q`| Quit file    |
 |`Space + s`| Sync plugins |
-|`Space + k`| Comment      |
+|`Space + c`| Comment      |
