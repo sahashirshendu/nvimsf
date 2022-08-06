@@ -5,7 +5,7 @@ local o = vim.opt
 o.termguicolors = true
 -- o.background = 'dark'
 -- o.hidden = true
-o.timeoutlen = 500
+o.timeoutlen = 200
 o.updatetime = 200
 o.scrolloff = 3 -- Number of screen lines to keep above and below the cursor
 o.number = true -- Line Number
@@ -61,13 +61,6 @@ map("n", "<S-TAB>", ":bprevious<CR>")
 -- Better Tabbing, Stay in indent mode
 map("v", "<", "<gv")
 map("v", ">", ">gv")
--- Leader
-map('n', '<leader>w', ':w<CR>')
-map('n', '<leader>q', ':q<CR>')
-map('n', '<leader>s', ':PackerSync<CR>')
-map('n', '<leader>k', ':CommentToggle<CR>')
-map('v', '<leader>k', ':CommentToggle<CR>')
-map('n', '<leader>e', ':NvimTreeToggle<CR>')
 
 -- PLUGINS
 local packer_bootstrap = false
@@ -128,6 +121,23 @@ return packer.startup(function(use)
   use { "lewis6991/gitsigns.nvim", config = function() require('gitsigns').setup() end }
   -- Comment
   use { "terrortylor/nvim-comment", config = function() require('nvim_comment').setup({ comment_empty = false }) end }
+  -- WhichKey
+  use {
+    "folke/which-key.nvim",
+    config = function()
+      require("which-key").setup { plugins = { marks = false, registers = false, presets = { operators = false, motions = false, text_objects = false, windows = false, nav = false, z = false, g = false } }, window = { border = "single", padding = { 1, 1, 1, 1 } }, }
+      require("which-key").register({
+        q = { ":q<CR>", "Quit" },
+        w = { ":w<CR>", "Write" },
+        e = { ":NvimTreeToggle<CR>", "Files" },
+        ["/"] = { ":CommentToggle<CR>", "Comment" },
+        s = { ":PackerSync<CR>", "Update Plugins" },
+        h = { ":s<CR>", "Horizontal Split" },
+        v = { ":vs<CR>", "Vertical Split" },
+      }, { prefix = "<leader>" })
+      require("which-key").register({ ["/"] = { ":CommentToggle<CR>", "Comment" } }, { prefix = "<leader>", mode = "v" })
+    end
+  }
 
   if packer_bootstrap then
     require("packer").sync()
