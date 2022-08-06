@@ -130,12 +130,37 @@ return packer.startup(function(use)
         q = { ":q<CR>", "Quit" },
         w = { ":w<CR>", "Write" },
         e = { ":NvimTreeToggle<CR>", "Files" },
-        ["/"] = { ":CommentToggle<CR>", "Comment" },
+        c = { ":CommentToggle<CR>", "Comment" },
         s = { ":PackerSync<CR>", "Update Plugins" },
         h = { ":s<CR>", "Horizontal Split" },
         v = { ":vs<CR>", "Vertical Split" },
       }, { prefix = "<leader>" })
-      require("which-key").register({ ["/"] = { ":CommentToggle<CR>", "Comment" } }, { prefix = "<leader>", mode = "v" })
+      require("which-key").register({ c = { ":CommentToggle<CR>", "Comment" } }, { prefix = "<leader>", mode = "v" })
+    end
+  }
+  -- Dashboard
+  use {
+    "goolord/alpha-nvim",
+    config = function()
+      local alpha = require("alpha")
+      local dashboard = require("alpha.themes.dashboard")
+      dashboard.section.header.val = {
+        [[ ██╗   ██╗ ]],
+        [[ ██║   ██║ ]],
+        [[ ██║   ██║ ]],
+        [[ ╚██╗ ██╔╝ ]],
+        [[  ╚████╔╝  ]],
+        [[   ╚═══╝   ]],
+      }
+      dashboard.section.buttons.val = {
+        dashboard.button("e", "  New File", ":enew <BAR> startinsert <CR>"),
+        dashboard.button("c", "  Configuration", ":e $MYVIMRC <CR>"),
+        dashboard.button("s", "  Update Plugins", ":PackerSync <CR>"),
+        dashboard.button("q", "  Quit", ":qa<CR>"),
+      }
+      dashboard.section.footer.val = "  " .. #vim.tbl_keys(packer_plugins) .. " plugins"
+      dashboard.opts.opts.noautocmd = true
+      alpha.setup(dashboard.opts)
     end
   }
 
