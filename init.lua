@@ -125,7 +125,7 @@ return packer.startup(function(use)
   use {
     "folke/which-key.nvim",
     config = function()
-      require("which-key").setup { plugins = { marks = false, registers = false, presets = { operators = false, motions = false, text_objects = false, windows = false, nav = false, z = false, g = false } }, window = { border = "single", padding = { 1, 1, 1, 1 } }, }
+      require("which-key").setup { plugins = { marks = false, registers = false, presets = { operators = false, motions = false, text_objects = false, windows = false, nav = false, z = false, g = false } }, window = { border = "single", padding = { 1, 1, 1, 1 } }, layout = { align = "center" } }
       require("which-key").register({
         q = { ":q<CR>", "Quit" },
         w = { ":w<CR>", "Write" },
