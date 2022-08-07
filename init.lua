@@ -145,7 +145,6 @@ return packer.startup(function(use)
     "glepnir/dashboard-nvim",
     config = function()
       local db = require("dashboard")
-      db.header_pad = 2
       db.custom_header = {
         [[ ██╗   ██╗ ]],
         [[ ██║   ██║ ]],
@@ -159,7 +158,7 @@ return packer.startup(function(use)
         { icon = "  ", desc = "Sync                                    ", action = "PackerSync", shortcut = " SPC s " },
         { icon = "  ", desc = "Quit                                    ", action = "qa", shortcut = " SPC q " }
       }
-      -- db.custom_footer = { "Do one thing, do it well - Unix Philosophy" }
+      db.custom_footer = { "  " .. #vim.tbl_keys(packer_plugins) .. " plugins" }
     end
   }
 
