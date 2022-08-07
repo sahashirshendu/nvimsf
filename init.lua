@@ -45,7 +45,7 @@ g.mapleader = ' '
 g.maplocalleader = ' '
 
 -- COLORSCHEMES
-local ok, _ = pcall(vim.cmd, 'colorscheme base16-onedark')
+local ok, _ = pcall(vim.cmd, 'colorscheme material')
 
 -- KEYBINDINGS
 local function map(m, k, v)
@@ -91,7 +91,7 @@ return packer.startup(function(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
   -- Colorschemes
-  use 'RRethy/nvim-base16'
+  use 'marko-cerovac/material.nvim'
   -- Statusline
   use {
     'nvim-lualine/lualine.nvim',
@@ -130,36 +130,36 @@ return packer.startup(function(use)
         q = { ":q<CR>", "Quit" },
         w = { ":w<CR>", "Write" },
         e = { ":NvimTreeToggle<CR>", "Files" },
+        E = { ":e $MYVIMRC<CR>", "Config" },
         c = { ":CommentToggle<CR>", "Comment" },
         s = { ":PackerSync<CR>", "Update Plugins" },
         h = { ":s<CR>", "Horizontal Split" },
         v = { ":vs<CR>", "Vertical Split" },
+        n = { ":enew <BAR> startinsert<CR>", "New File" },
       }, { prefix = "<leader>" })
       require("which-key").register({ c = { ":CommentToggle<CR>", "Comment" } }, { prefix = "<leader>", mode = "v" })
     end
   }
   -- Dashboard
   use {
-    "goolord/alpha-nvim",
+    "glepnir/dashboard-nvim",
     config = function()
-      local alpha = require("alpha")
-      local dashboard = require("alpha.themes.dashboard")
-      dashboard.section.header.val = {
+      local db = require("dashboard")
+      db.header_pad = 2
+      db.custom_header = {
         [[ ██╗   ██╗ ]],
         [[ ██║   ██║ ]],
         [[ ╚██╗ ██╔╝ ]],
         [[  ╚████╔╝  ]],
         [[   ╚═══╝   ]],
       }
-      dashboard.section.buttons.val = {
-        dashboard.button("e", "  New File", ":enew <BAR> startinsert <CR>"),
-        dashboard.button("c", "  Configuration", ":e $MYVIMRC <CR>"),
-        dashboard.button("s", "  Update Plugins", ":PackerSync <CR>"),
-        dashboard.button("q", "  Quit", ":qa<CR>"),
+      db.custom_center = {
+        { icon = "  ", desc = "New File                                ", action = "enew | startinsert", shortcut = " SPC n " },
+        { icon = "  ", desc = "Config                                  ", action = "e $MYVIMRC", shortcut = " SPC E " },
+        { icon = "  ", desc = "Sync                                    ", action = "PackerSync", shortcut = " SPC s " },
+        { icon = "  ", desc = "Quit                                    ", action = "qa", shortcut = " SPC q " }
       }
-      dashboard.section.footer.val = "  " .. #vim.tbl_keys(packer_plugins) .. " plugins"
-      dashboard.opts.opts.noautocmd = true
-      alpha.setup(dashboard.opts)
+      -- db.custom_footer = { "Do one thing, do it well - Unix Philosophy" }
     end
   }
 
