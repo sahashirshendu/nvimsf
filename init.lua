@@ -147,7 +147,6 @@ return packer.startup(function(use)
       dashboard.section.header.val = {
         [[ ██╗   ██╗ ]],
         [[ ██║   ██║ ]],
-        [[ ██║   ██║ ]],
         [[ ╚██╗ ██╔╝ ]],
         [[  ╚████╔╝  ]],
         [[   ╚═══╝   ]],
