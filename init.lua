@@ -79,6 +79,11 @@ if not status_ok then
   return
 end
 
+local present, impatient = pcall(require, "impatient")
+if present then
+  impatient.enable_profile()
+end
+
 packer.init({
   display = {
     open_fn = function()
@@ -168,6 +173,8 @@ return packer.startup(function(use)
       db.custom_footer = { "  " .. #vim.tbl_keys(packer_plugins) .. " plugins" }
     end
   }
+  -- Impatient
+  use "lewis6991/impatient.nvim"
 
   if packer_bootstrap then
     require("packer").sync()
