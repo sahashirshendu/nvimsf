@@ -73,7 +73,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
   a.nvim_command('packadd packer.nvim')
 end
 
-a.nvim_create_autocmd("BufWritePost", { pattern = "init.lua", command = "source <afile> | PackerSync" })
+a.nvim_create_autocmd("BufWritePost", { pattern = "init.lua", command = "source <afile> | PackerCompile" })
 
 local status_ok, packer = pcall(require, "packer")
 if not status_ok then
