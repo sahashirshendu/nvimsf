@@ -46,7 +46,7 @@ g.mapleader = ' '
 g.maplocalleader = ' '
 
 -- COLORSCHEMES
-local ok, _ = pcall(vim.cmd, 'colorscheme material')
+local ok, _ = pcall(a.nvim_command, 'colorscheme material')
 
 -- KEYBINDINGS
 local function map(m, k, v)
