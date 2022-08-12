@@ -1,7 +1,8 @@
 -- OPTIONS
 local g = vim.g
 local o = vim.opt
-local a = vim.api
+local api = vim.api
+local map = vim.keymap.set
 
 o.termguicolors = true
 -- o.background = 'dark'
@@ -46,22 +47,22 @@ g.mapleader = ' '
 g.maplocalleader = ' '
 
 -- COLORSCHEMES
-local ok, _ = pcall(a.nvim_command, 'colorscheme material')
+local ok, _ = pcall(api.nvim_command, 'colorscheme material')
 
 -- KEYBINDINGS
-local function map(m, k, v)
-    vim.keymap.set(m, k, v, { silent = true })
-end
+local mapopts = { noremap = true, silent = true }
 
 -- Mimic shell movements
-map('i', '<C-E>', '<ESC>A')
-map('i', '<C-A>', '<ESC>I')
+map('i', '<C-E>', '<ESC>A', mapopts)
+map('i', '<C-A>', '<ESC>I', mapopts)
 -- Tav to switch Buffers
-map("n", "<TAB>", ":bnext<CR>")
-map("n", "<S-TAB>", ":bprevious<CR>")
+map("n", "<TAB>", ":bnext<CR>", mapopts)
+map("n", "<S-TAB>", ":bprevious<CR>", mapopts)
 -- Better Tabbing, Stay in indent mode
-map("v", "<", "<gv")
-map("v", ">", ">gv")
+map("v", "<", "<gv", mapopts)
+map("v", ">", ">gv", mapopts)
+-- Ctrl+BS to delete previous word
+map("!", "<C-BS>", "<C-w>", mapopts)
 
 -- PLUGINS
 local packer_bootstrap = false
@@ -79,10 +80,10 @@ local function packer_init()
   local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
   if fn.empty(fn.glob(install_path)) > 0 then
     packer_bootstrap = fn.system({"git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path})
-    a.nvim_command('packadd packer.nvim')
+    api.nvim_command('packadd packer.nvim')
   end
 
-  a.nvim_create_autocmd("BufWritePost", { pattern = "init.lua", command = "source <afile> | PackerCompile" })
+  api.nvim_create_autocmd("BufWritePost", { pattern = "init.lua", command = "source <afile> | PackerCompile" })
 end
 
 local function plugins(use)
@@ -116,7 +117,7 @@ local function plugins(use)
     requires = { "windwp/nvim-ts-autotag", "p00f/nvim-ts-rainbow" },
     config = function()
       require("nvim-treesitter.configs").setup {
-        highlight = { enable = true, disable = { "" }, additional_vim_regex_highlighting = true }, autopairs = { enable = true }, autotag = { enable = true }, rainbow = { enable = true, extended_mode = false, max_file_lines = nil } }
+        ensure_installed = {"bash", "lua", "python"}, highlight = { enable = true, disable = { "" }, additional_vim_regex_highlighting = true }, autopairs = { enable = true }, autotag = { enable = true }, rainbow = { enable = true, extended_mode = false, max_file_lines = nil } }
     end
   }
   use { "windwp/nvim-autopairs", config = function() require('nvim-autopairs').setup() end }
