@@ -67,33 +67,25 @@ map("v", ">", ">gv")
 local packer_bootstrap = false
 local fn = vim.fn
 
-local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-if fn.empty(fn.glob(install_path)) > 0 then
-  packer_bootstrap = fn.system({"git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path})
-  a.nvim_command('packadd packer.nvim')
-end
-
-a.nvim_create_autocmd("BufWritePost", { pattern = "init.lua", command = "source <afile> | PackerCompile" })
-
-local status_ok, packer = pcall(require, "packer")
-if not status_ok then
-  return
-end
-
-local present, impatient = pcall(require, "impatient")
-if present then
-  impatient.enable_profile()
-end
-
-packer.init({
+local conf = {
   display = {
     open_fn = function()
       return require("packer.util").float({ border = "single" })
     end,
   },
-})
+}
 
-return packer.startup(function(use)
+local function packer_init()
+  local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+  if fn.empty(fn.glob(install_path)) > 0 then
+    packer_bootstrap = fn.system({"git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path})
+    a.nvim_command('packadd packer.nvim')
+  end
+
+  a.nvim_create_autocmd("BufWritePost", { pattern = "init.lua", command = "source <afile> | PackerCompile" })
+end
+
+local function plugins(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
   -- Colorschemes
@@ -180,4 +172,18 @@ return packer.startup(function(use)
   if packer_bootstrap then
     require("packer").sync()
   end
-end)
+end
+
+packer_init()
+local status_ok, packer = pcall(require, "packer")
+if not status_ok then
+  return
+end
+
+local present, impatient = pcall(require, "impatient")
+if present then
+  impatient.enable_profile()
+end
+
+packer.init(conf)
+packer.startup(plugins)
