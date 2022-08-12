@@ -20,14 +20,7 @@ Learn the basics of (Neo)Vim by running `:Tutor`.
 Just for info, to quit `neovim` enter `ZZ` or `:q`.
 On first run, to sync the plugins, enter `:PackerSync`.
 
-### To use without LSP (Default):
-```bash
-cp init_min.lua init.lua
-```
-### To use with LSP (a wee bit heavier):
-```bash
-cp init_lsp.lua init.lua
-```
+*To use with LSP (a wee bit heavier)*, uncomment the CMP and LSP sections in plugins functions and the last two lines of init.lua that source CMP and LSP configs.
 
 #### Some Shortcuts used in this config:
 | Shortcut  | Function     |
