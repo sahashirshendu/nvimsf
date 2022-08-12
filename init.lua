@@ -25,6 +25,8 @@ o.shiftwidth = 2
 o.softtabstop = -1 -- If negative, shiftwidth value is used
 o.showmode = false
 o.whichwrap = "b,s,<,>,[,],h,l"
+o.pumheight = 10
+o.pumblend = 10
 -- o.list = true
 -- o.listchars = 'trail:·,nbsp:◇,tab:→ ,extends:▸,precedes:◂'
 -- o.listchars = 'eol:¬,space:·,lead: ,trail:·,nbsp:◇,tab:→-,extends:▸,precedes:◂,multispace:···⬝,leadmultispace:│   ,'
@@ -47,7 +49,7 @@ g.mapleader = ' '
 g.maplocalleader = ' '
 
 -- COLORSCHEMES
-local ok, _ = pcall(api.nvim_command, 'colorscheme material')
+local _, _ = pcall(api.nvim_command, 'colorscheme material')
 
 -- KEYBINDINGS
 local mapopts = { noremap = true, silent = true }
@@ -137,6 +139,7 @@ local function plugins(use)
         q = { ":q<CR>", "Quit" },
         w = { ":w<CR>", "Write" },
         e = { ":NvimTreeToggle<CR>", "Files" },
+        f = { ":Format<CR>", "Format" },
         E = { ":e $MYVIMRC<CR>", "Config" },
         c = { ":CommentToggle<CR>", "Comment" },
         s = { ":PackerSync<CR>", "Update Plugins" },
