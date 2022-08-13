@@ -65,6 +65,7 @@ map("v", "<", "<gv", mapopts)
 map("v", ">", ">gv", mapopts)
 -- Ctrl+BS to delete previous word
 map("!", "<C-BS>", "<C-w>", mapopts)
+map("!", "<C-h>", "<C-w>", mapopts)
 
 -- CMP
 g.completeopt = "menu,menuone,noselect,noinsert"
