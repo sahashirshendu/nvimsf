@@ -137,7 +137,6 @@ end
 local function lsp_handlers()
 	-- Diagnostic Signs
 	local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
-
 	for type, icon in pairs(signs) do
 		local hl = "DiagnosticSign" .. type
 		vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
@@ -145,30 +144,16 @@ local function lsp_handlers()
 
 	-- LSP handlers configuration
 	local config = {
-		float = {
-			focusable = true,
-			style = "minimal",
-			border = "rounded",
-		},
-
+		float = { focusable = true, style = "minimal", border = "rounded", },
 		diagnostic = {
 			-- virtual_text = false,
 			-- virtual_text = { spacing = 4, prefix = "●" },
 			virtual_text = { severity = vim.diagnostic.severity.ERROR },
-			signs = {
-				active = signs,
-			},
+			signs = { active = signs, },
 			underline = true,
 			update_in_insert = false,
 			severity_sort = true,
-			float = {
-				focusable = true,
-				style = "minimal",
-				border = "rounded",
-				source = "always",
-				header = "",
-				prefix = "",
-			},
+			float = { focusable = true, style = "minimal", border = "rounded", source = "always", header = "", prefix = "", },
 			-- virtual_lines = true,
 		},
 	}
@@ -178,22 +163,19 @@ local function lsp_handlers()
 	vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, config.float)
 	vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
 		underline = true,
-		virtual_text = {
-			spacing = 5,
-			severity_limit = "Warning",
-		},
+		virtual_text = { spacing = 5, severity_limit = "Warning", },
 		update_in_insert = true,
 	})
 end
 
 local function on_attach(client, bufnr)
 	-- Enable completion triggered by <C-X><C-O>
-	vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+	api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 	-- Use LSP as the handler for formatexpr.
-	vim.api.nvim_buf_set_option(0, "formatexpr", "v:lua.vim.lsp.formatexpr()")
+	api.nvim_buf_set_option(0, "formatexpr", "v:lua.vim.lsp.formatexpr()")
 	-- tagfunc
 	if client.server_capabilities.definitionProvider then
-		vim.api.nvim_buf_set_option(bufnr, "tagfunc", "v:lua.vim.lsp.tagfunc")
+		api.nvim_buf_set_option(bufnr, "tagfunc", "v:lua.vim.lsp.tagfunc")
 	end
 	-- Disable Formatting for tsserver, sumneko-lua
 	if client.name == "tsserver" or client.name == "sumneko_lua" then
@@ -214,9 +196,7 @@ lsp_handlers()
 local opts = {
 	on_attach = on_attach,
 	capabilities = capabilities,
-	flags = {
-		debounce_text_changes = 150,
-	},
+	flags = { debounce_text_changes = 150 },
 }
 
 local ms_status_ok, mason = pcall(require, "mason")
@@ -230,7 +210,7 @@ end
 
 mason.setup({
 	ui = {
-		border = "rounded",
+		border = "single",
 		icons = {
 			package_installed = "✓",
 			package_pending = "➜",
@@ -249,8 +229,5 @@ local lspconfig = require("lspconfig")
 for server_name, _ in pairs(servers) do
 	local options = vim.tbl_deep_extend("force", opts, servers[server_name] or {})
 
-	-- if server_name == "sumneko_lua" then
-	--   opts = luadev.setup { lspconfig = opts }
-	-- end
 	lspconfig[server_name].setup(options)
 end
