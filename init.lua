@@ -101,7 +101,7 @@ local function plugins(use)
     config = function()
       require('lualine').setup({
         options = { theme = 'auto', icons_enabled = true, component_separators = "|", section_separators = { left = "", right = "" } },
-        sections = { lualine_a = { "mode" }, lualine_b = { "filename" }, lualine_c = { "branch" }, lualine_x = { "fileformat", "encoding", "filetype" }, lualine_y = { }, lualine_z = { { "location", separator = { left = "", right = "" }, left_padding = 2 } } },
+        sections = { lualine_a = { "mode" }, lualine_b = { "filename" }, lualine_c = { "branch", "diff" }, lualine_x = { "fileformat", "encoding", "filetype" }, lualine_y = { }, lualine_z = { { "location", separator = { left = "", right = "" }, left_padding = 2 } } },
         extensions = { "nvim-tree" },
       })
     end
