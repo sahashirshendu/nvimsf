@@ -186,15 +186,21 @@ local function plugins(use)
   --     "rafamadriz/friendly-snippets",
   --     "hrsh7th/cmp-vsnip",
   --   },
+  --   config = function ()
+  --     require("config.cmp")
+  --   end
   -- }
   -- LSP
-  -- use{
+  -- use {
   --   "neovim/nvim-lspconfig",
   --   requires = {
   --     "williamboman/mason.nvim",
   --     "williamboman/mason-lspconfig.nvim",
   --     "jose-elias-alvarez/null-ls.nvim",
   --   },
+  --   config = function ()
+  --     require("config.lsp")
+  --   end
   -- }
 
   if packer_bootstrap then
@@ -215,7 +221,3 @@ end
 
 packer.init(conf)
 packer.startup(plugins)
-
--- CMP, LSP
--- require("config.cmp")
--- require("config.lsp")
