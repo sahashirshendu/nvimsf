@@ -31,7 +31,7 @@ o.pumblend = 10
 -- o.listchars = 'trail:·,nbsp:◇,tab:→ ,extends:▸,precedes:◂'
 -- o.listchars = 'eol:¬,space:·,lead: ,trail:·,nbsp:◇,tab:→-,extends:▸,precedes:◂,multispace:···⬝,leadmultispace:│   ,'
 -- o.formatoptions = 'qrn1'
-o.clipboard = 'unnamedplus' -- Make the clipboard operations doable
+o.clipboard = "unnamed,unnamedplus"
 o.ignorecase = true
 o.smartcase = true
 o.backup = false
@@ -65,6 +65,7 @@ map("v", "<", "<gv", mapopts)
 map("v", ">", ">gv", mapopts)
 -- Ctrl+BS to delete previous word
 map("!", "<C-BS>", "<C-w>", mapopts)
+map("!", "<C-h>", "<C-w>", mapopts)
 
 -- PLUGINS
 local packer_bootstrap = false
