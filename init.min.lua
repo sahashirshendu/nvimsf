@@ -74,9 +74,7 @@ local function snip_setup()
     return
   end
 
-  local types = require("luasnip.util.types")
-  local luasnip_folder = vim.fn.stdpath("config") .. "/snippets/"
-
+  local snip_folder = vim.fn.stdpath("config") .. "/snippets/"
   vim.api.nvim_create_user_command("LuaSnipEdit", "lua require('luasnip.loaders').edit_snippet_files()", {})
 
   luasnip.config.set_config({
@@ -92,8 +90,8 @@ local function snip_setup()
 
   -- Load Snippets
   require("luasnip.loaders.from_vscode").lazy_load()
-  -- require("luasnip.loaders.from_snipmate").lazy_load()
-  require("luasnip.loaders.from_lua").lazy_load({ paths = luasnip_folder })
+  require("luasnip.loaders.from_snipmate").lazy_load({ paths = snip_folder })
+  require("luasnip.loaders.from_lua").lazy_load({ paths = snip_folder })
 end
 
 -- CMP
