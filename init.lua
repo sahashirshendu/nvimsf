@@ -117,7 +117,8 @@ local function cmp_setup()
 
   cmp.setup({
     completion = {
-      completeopt = "menu,menuone,noinsert", keyword_length = 1
+      completeopt = "menu,menuone,noselect,noinsert",
+      keyword_length = 1,
     },
     snippet = {
       expand = function(args)
