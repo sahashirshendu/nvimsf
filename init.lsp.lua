@@ -67,9 +67,36 @@ map("v", ">", ">gv", mapopts)
 map("!", "<C-BS>", "<C-w>", mapopts)
 map("!", "<C-h>", "<C-w>", mapopts)
 
--- CMP
-g.completeopt = "menu,menuone,noselect,noinsert"
+-- Snippets
+local function snip_setup()
+  local snip_status_ok, luasnip = pcall(require, "luasnip")
+  if not snip_status_ok then
+    return
+  end
 
+  local types = require("luasnip.util.types")
+  local luasnip_folder = vim.fn.stdpath("config") .. "/snippets/"
+
+  vim.api.nvim_create_user_command("LuaSnipEdit", "lua require('luasnip.loaders').edit_snippet_files()", {})
+
+  luasnip.config.set_config({
+    history = true,
+    ext_base_prio = 200,
+    ext_prio_increase = 1,
+    updateevents = "TextChanged,TextChangedI",
+    enable_autosnippets = false,
+    store_selection_keys = "<C-q>",
+  })
+
+  -- luasnip.filetype_extend("all", { "_" })
+
+  -- Load Snippets
+  require("luasnip.loaders.from_vscode").lazy_load()
+  -- require("luasnip.loaders.from_snipmate").lazy_load()
+  require("luasnip.loaders.from_lua").lazy_load({ paths = luasnip_folder })
+end
+
+-- CMP
 local function cmp_setup()
   local has_words_before = function()
     local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -85,10 +112,18 @@ local function cmp_setup()
     return
   end
 
+  local snip_status_ok, luasnip = pcall(require, "luasnip")
+  if not snip_status_ok then
+    return
+  end
+
   cmp.setup({
+    completion = {
+      completeopt = "menu,menuone,noinsert", keyword_length = 1
+    },
     snippet = {
       expand = function(args)
-        vim.fn["vsnip#anonymous"](args.body)
+        luasnip.lsp_expand(args.body)
       end,
     },
     mapping = cmp.mapping.preset.insert {
@@ -104,8 +139,10 @@ local function cmp_setup()
       ["<Tab>"] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_next_item()
-        elseif vim.fn["vsnip#available"](1) == 1 then
-          feedkey("<Plug>(vsnip-expand-or-jump)", "")
+        elseif luasnip.expandable() then
+          luasnip.expand()
+        elseif luasnip.expand_or_jumpable() then
+          luasnip.expand_or_jump()
         elseif has_words_before() then
           cmp.complete()
         else
@@ -115,15 +152,15 @@ local function cmp_setup()
       ["<S-Tab>"] = cmp.mapping(function()
         if cmp.visible() then
           cmp.select_prev_item()
-        elseif vim.fn["vsnip#jumpable"](-1) == 1 then
-          feedkey("<Plug>(vsnip-jump-prev)", "")
+        elseif luasnip.jumpable(-1) then
+          luasnip.jump(-1)
         end
       end, { "i", "s" }),
     },
     sources = {
       { name = "nvim_lsp" },
       { name = "nvim_lua" },
-      { name = "vsnip" },
+      { name = 'luasnip' },
       { name = "buffer" },
       { name = "path" },
       { name = "treesitter" },
@@ -495,12 +532,18 @@ local function plugins(use)
     requires = {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-nvim-lua",
-      {"hrsh7th/cmp-buffer", after = "cmp-nvim-lua" },
-      {"hrsh7th/cmp-path", after = "cmp-nvim-lua" },
+      { "hrsh7th/cmp-buffer", after = "cmp-nvim-lua" },
+      { "hrsh7th/cmp-path", after = "cmp-nvim-lua" },
       "hrsh7th/cmp-cmdline",
-      { "hrsh7th/vim-vsnip", after = "nvim-cmp" },
-      "rafamadriz/friendly-snippets",
-      "hrsh7th/cmp-vsnip",
+      {
+        "L3MON4D3/LuaSnip",
+        after = "nvim-cmp",
+        requires = {
+          "saadparwaiz1/cmp_luasnip",
+          "rafamadriz/friendly-snippets"
+        },
+        config = snip_setup()
+      },
     },
     config = cmp_setup()
   }
