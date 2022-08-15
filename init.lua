@@ -67,6 +67,120 @@ map("v", ">", ">gv", mapopts)
 map("!", "<C-BS>", "<C-w>", mapopts)
 map("!", "<C-h>", "<C-w>", mapopts)
 
+-- Snippets
+local function snip_setup()
+  local snip_status_ok, luasnip = pcall(require, "luasnip")
+  if not snip_status_ok then
+    return
+  end
+
+  local types = require("luasnip.util.types")
+  local luasnip_folder = vim.fn.stdpath("config") .. "/snippets/"
+
+  vim.api.nvim_create_user_command("LuaSnipEdit", "lua require('luasnip.loaders').edit_snippet_files()", {})
+
+  luasnip.config.set_config({
+    history = true,
+    ext_base_prio = 200,
+    ext_prio_increase = 1,
+    updateevents = "TextChanged,TextChangedI",
+    enable_autosnippets = false,
+    store_selection_keys = "<C-q>",
+  })
+
+  -- luasnip.filetype_extend("all", { "_" })
+
+  -- Load Snippets
+  require("luasnip.loaders.from_vscode").lazy_load()
+  -- require("luasnip.loaders.from_snipmate").lazy_load()
+  require("luasnip.loaders.from_lua").lazy_load({ paths = luasnip_folder })
+end
+
+-- CMP
+local function cmp_setup()
+  local has_words_before = function()
+    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+  end
+
+  local feedkey = function(key, mode)
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+  end
+
+  local cmp_status_ok, cmp = pcall(require, "cmp")
+  if not cmp_status_ok then
+    return
+  end
+
+  local snip_status_ok, luasnip = pcall(require, "luasnip")
+  if not snip_status_ok then
+    return
+  end
+
+  cmp.setup({
+    completion = {
+      completeopt = "menu,menuone,noinsert", keyword_length = 1
+    },
+    snippet = {
+      expand = function(args)
+        luasnip.lsp_expand(args.body)
+      end,
+    },
+    mapping = cmp.mapping.preset.insert {
+      ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+      ["<C-f>"] = cmp.mapping.scroll_docs(4),
+      ["<C-Space>"] = cmp.mapping.complete(),
+      ["<C-y>"] = cmp.config.disable,
+      ["<C-e>"] = cmp.mapping.abort(),
+      ["<CR>"] = cmp.mapping.confirm {
+        behavior = cmp.ConfirmBehavior.Replace,
+        select = true,
+      },
+      ["<Tab>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_next_item()
+        elseif luasnip.expandable() then
+          luasnip.expand()
+        elseif luasnip.expand_or_jumpable() then
+          luasnip.expand_or_jump()
+        elseif has_words_before() then
+          cmp.complete()
+        else
+          fallback()
+        end
+      end, { "i", "s" }),
+      ["<S-Tab>"] = cmp.mapping(function()
+        if cmp.visible() then
+          cmp.select_prev_item()
+        elseif luasnip.jumpable(-1) then
+          luasnip.jump(-1)
+        end
+      end, { "i", "s" }),
+    },
+    sources = {
+      { name = "nvim_lsp" },
+      { name = "nvim_lua" },
+      { name = 'luasnip' },
+      { name = "buffer" },
+      { name = "path" },
+      { name = "treesitter" },
+    },
+    window = {
+      documentation = { border = "single", },
+    },
+  })
+
+  cmp.setup.cmdline("/", {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = { { name = "buffer" } },
+  })
+
+  cmp.setup.cmdline(":", {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources{ { name = "path" }, { name = "cmdline" } },
+  })
+end
+
 -- PLUGINS
 local packer_bootstrap = false
 local fn = vim.fn
@@ -178,6 +292,27 @@ local function plugins(use)
   }
   -- Impatient
   use "lewis6991/impatient.nvim"
+  -- CMP
+  use {
+    "hrsh7th/nvim-cmp",
+    requires = {
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-nvim-lua",
+      { "hrsh7th/cmp-buffer", after = "cmp-nvim-lua" },
+      { "hrsh7th/cmp-path", after = "cmp-nvim-lua" },
+      "hrsh7th/cmp-cmdline",
+      {
+        "L3MON4D3/LuaSnip",
+        after = "nvim-cmp",
+        requires = {
+          "saadparwaiz1/cmp_luasnip",
+          "rafamadriz/friendly-snippets"
+        },
+        config = snip_setup()
+      },
+    },
+    config = cmp_setup()
+  }
 
   if packer_bootstrap then
     require("packer").sync()
