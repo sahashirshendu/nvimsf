@@ -20,17 +20,8 @@ Learn the basics of (Neo)Vim by running `:Tutor`.
 Just for info, to quit `neovim` enter `ZZ` or `:q`.
 On first run, to sync the plugins, enter `:PackerSync`.
 
-### Use without LSP (default):
-```bash
-cd ~/.config/nvim
-cp init.lua.min init.lua
-```
-
-### Use with LSP (a wee bit heavier):
-```bash
-cd ~/.config/nvim
-cp init.lua.lsp init.lua
-```
+By default, the configuration has Language Server Protocol (LSP) set up, but not enabled.
+To enable LSP, uncomment the LSP section of the Plugins function which also calls the `lsp_setup()` function.
 
 #### Some Shortcuts used in this config:
 | Shortcut  | Function     |
