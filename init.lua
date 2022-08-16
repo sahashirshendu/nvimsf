@@ -453,29 +453,21 @@ local function plugins(use)
     'nvim-lualine/lualine.nvim',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
     config = function()
-      require('lualine').setup({
-        options = { theme = 'auto', icons_enabled = true, component_separators = "|", section_separators = { left = "", right = "" } },
-        sections = { lualine_a = { "mode" }, lualine_b = { "filename" }, lualine_c = { "branch", "diff" }, lualine_x = { "fileformat", "encoding", "filetype" }, lualine_y = { }, lualine_z = { { "location", separator = { left = "", right = "" }, left_padding = 2 } } },
-        extensions = { "nvim-tree" },
-      })
+      require('lualine').setup {
+        options = { component_separators = "|", section_separators = { left = "", right = "" } },
+        sections = { lualine_x = { "fileformat", "encoding", "filetype" }, lualine_y = { }, lualine_z = { { "location", separator = { left = "", right = "" }, left_padding = 2 } } },
+      }
     end
   }
   use {
     "akinsho/bufferline.nvim",
-    config = function()
-      require("bufferline").setup({
-        options = { offsets = { { filetype = "NvimTree", text = "File Explorer", highlight = "Directory", text_align = "center" } } },
-      })
-    end
+    config = function() require("bufferline").setup { options = { offsets = { { filetype = "NvimTree", text = "File Explorer" } } } } end
   }
   -- Treesitter
   use {
     "nvim-treesitter/nvim-treesitter", run = ":TSUpdate",
     requires = { "windwp/nvim-ts-autotag", "p00f/nvim-ts-rainbow" },
-    config = function()
-      require("nvim-treesitter.configs").setup {
-        ensure_installed = {"bash", "lua", "python"}, highlight = { enable = true, disable = { "" }, additional_vim_regex_highlighting = true }, autopairs = { enable = true }, autotag = { enable = true }, rainbow = { enable = true, extended_mode = false, max_file_lines = nil } }
-    end
+    config = function() require("nvim-treesitter.configs").setup { ensure_installed = {"bash", "lua", "python"}, highlight = { enable = true, disable = { "" } }, autopairs = { enable = true }, rainbow = { enable = true } } end
   }
   use { "windwp/nvim-autopairs", config = function() require('nvim-autopairs').setup() end }
   -- NVimTree
@@ -539,10 +531,7 @@ local function plugins(use)
       {
         "L3MON4D3/LuaSnip",
         after = "nvim-cmp",
-        requires = {
-          "saadparwaiz1/cmp_luasnip",
-          "rafamadriz/friendly-snippets"
-        },
+        requires = { "saadparwaiz1/cmp_luasnip", "rafamadriz/friendly-snippets" },
         config = snip_setup()
       },
     },
@@ -551,11 +540,7 @@ local function plugins(use)
   -- LSP
   -- use {
   --   "neovim/nvim-lspconfig",
-  --   requires = {
-  --     "williamboman/mason.nvim",
-  --     "williamboman/mason-lspconfig.nvim",
-  --     "jose-elias-alvarez/null-ls.nvim",
-  --   },
+  --   requires = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "jose-elias-alvarez/null-ls.nvim" },
   --   config = lsp_setup()
   -- }
 
