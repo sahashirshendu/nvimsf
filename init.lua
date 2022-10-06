@@ -194,7 +194,7 @@ local function lsp_setup()
   local formatting = null_ls.builtins.formatting
   local diagnostics = null_ls.builtins.diagnostics
 
-  api.nvim_create_user_command("Format", "lua vim.lsp.buf.formatting()", {}) -- Builtin Formatting of NVim LSP
+  api.nvim_create_user_command("Format", "lua vim.lsp.buf.format({ async = true })", {}) -- Builtin Formatting of NVim LSP
 
   null_ls.setup({
     debug = false,
@@ -297,7 +297,7 @@ local function lsp_setup()
     if client.server_capabilities.documentFormattingProvider then
       local function format()
         local view = vim.fn.winsaveview()
-        vim.lsp.buf.formatting({
+        vim.lsp.buf.format({
           async = true,
           filter = function(attached_client)
             return attached_client.name ~= ""
@@ -363,7 +363,7 @@ local function lsp_setup()
     end
     -- Disable Formatting for tsserver, sumneko-lua
     if client.name == "tsserver" or client.name == "sumneko_lua" then
-      client.resolved_capabilities.document_formatting = false
+      client.server_capabilities.document_formatting = false
     end
 
     -- require("keymaps").setup(client, bufnr)
