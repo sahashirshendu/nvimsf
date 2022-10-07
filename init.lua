@@ -304,7 +304,7 @@ local function lsp_setup()
           end,
         })
         vim.fn.winrestview(view)
-        print("Buffer formatted")
+        print("Buffer formatted!")
       end
 
       local lsp_format_grp = api.nvim_create_augroup("LspFormat", { clear = true })
