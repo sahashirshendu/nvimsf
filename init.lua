@@ -194,7 +194,7 @@ local function lsp_setup()
   local nlsfmt = null_ls.builtins.formatting
   -- local diagnostics = null_ls.builtins.diagnostics
 
-  api.nvim_create_user_command("Format", "lua vim.lsp.buf.format({ async = true })", {}) -- Builtin Formatting of NVim LSP
+  api.nvim_create_user_command("format", "lua vim.lsp.buf.format({ async = true })", {}) -- Builtin Formatting of NVim LSP
 
   null_ls.setup({
     debug = false,
@@ -301,7 +301,7 @@ local function lsp_setup()
           end,
         })
         vim.fn.winrestview(view)
-        print("Buffer formatted!")
+        print("Formatted!")
       end
 
       local lsp_format_grp = api.nvim_create_augroup("LspFormat", { clear = true })
@@ -479,7 +479,7 @@ local function plugins(use)
         q = { ":q<CR>", "Quit" },
         w = { ":w<CR>", "Write" },
         e = { ":NvimTreeToggle<CR>", "Files" },
-        f = { ":Format<CR>", "Format" },
+        f = { ":format<CR>", "Format" },
         E = { ":e $MYVIMRC<CR>", "Config" },
         c = { ":CommentToggle<CR>", "Comment" },
         s = { ":PackerSync<CR>", "Update Plugins" },
