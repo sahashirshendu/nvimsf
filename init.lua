@@ -91,7 +91,7 @@ local function snip_setup()
   -- Load Snippets
   require("luasnip.loaders.from_vscode").lazy_load()
   -- require("luasnip.loaders.from_vscode").lazy_load({ paths = snip_folder })
-  -- require("luasnip.loaders.from_snipmate").lazy_load({ paths = snip_folder })
+  require("luasnip.loaders.from_snipmate").lazy_load({ paths = snip_folder })
   -- require("luasnip.loaders.from_lua").lazy_load({ paths = snip_folder })
 end
 
@@ -102,9 +102,9 @@ local function cmp_setup()
     return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
   end
 
-  local feedkey = function(key, mode)
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
-  end
+  -- local feedkey = function(key, mode)
+  --   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+  -- end
 
   local cmp_status_ok, cmp = pcall(require, "cmp")
   if not cmp_status_ok then
@@ -191,21 +191,21 @@ local function lsp_setup()
     return
   end
 
-  local formatting = null_ls.builtins.formatting
-  local diagnostics = null_ls.builtins.diagnostics
+  local nlsfmt = null_ls.builtins.formatting
+  -- local diagnostics = null_ls.builtins.diagnostics
 
   api.nvim_create_user_command("Format", "lua vim.lsp.buf.format({ async = true })", {}) -- Builtin Formatting of NVim LSP
 
   null_ls.setup({
     debug = false,
     sources = {
-      formatting.prettier,
-      formatting.black,
-      formatting.fprettify,
-      formatting.shfmt,
-      formatting.clang_format,
-      formatting.cmake_format,
-      formatting.stylua,
+      nlsfmt.prettier,
+      nlsfmt.black,
+      nlsfmt.fprettify,
+      nlsfmt.shfmt,
+      nlsfmt.clang_format,
+      nlsfmt.cmake_format,
+      nlsfmt.stylua,
     },
   })
 
@@ -539,11 +539,11 @@ local function plugins(use)
     config = cmp_setup()
   }
   -- LSP
-  -- use {
-  --   "neovim/nvim-lspconfig",
-  --   requires = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "jose-elias-alvarez/null-ls.nvim" },
-  --   config = lsp_setup()
-  -- }
+  use {
+    "neovim/nvim-lspconfig",
+    requires = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "jose-elias-alvarez/null-ls.nvim" },
+    config = lsp_setup()
+  }
 
   if packer_bootstrap then
     require("packer").sync()
