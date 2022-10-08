@@ -539,11 +539,11 @@ local function plugins(use)
     config = cmp_setup()
   }
   -- LSP
-  use {
-    "neovim/nvim-lspconfig",
-    requires = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "jose-elias-alvarez/null-ls.nvim" },
-    config = lsp_setup()
-  }
+  -- use {
+  --   "neovim/nvim-lspconfig",
+  --   requires = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "jose-elias-alvarez/null-ls.nvim" },
+  --   config = lsp_setup()
+  -- }
 
   if packer_bootstrap then
     require("packer").sync()
