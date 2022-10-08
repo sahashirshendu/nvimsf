@@ -395,11 +395,7 @@ local function lsp_setup()
   mason.setup({
     ui = {
       border = "single",
-      icons = {
-        package_installed = "✓",
-        package_pending = "➜",
-        package_uninstalled = "✗",
-      },
+      icons = { package_installed = "✓", package_pending = "➜", package_uninstalled = "✗" },
     },
   })
 
