@@ -224,10 +224,7 @@ local function lsp_setup()
     sumneko_lua = {
       settings = {
         Lua = {
-          runtime = {
-            version = "LuaJIT",
-            path = vim.split(package.path, ";"),
-          },
+          runtime = { version = "LuaJIT", path = vim.split(package.path, ";") },
           diagnostics = {
             globals = { "vim", "describe", "it", "before_each", "after_each", "packer_plugins" },
             -- disable = { "lowercase-global", "undefined-global", "unused-local", "unused-vararg", "trailing-space" },
