@@ -52,20 +52,18 @@ g.maplocalleader = ' '
 local _, _ = pcall(api.nvim_command, 'colorscheme material')
 
 -- KEYBINDINGS
-local mapopts = { noremap = true, silent = true }
-
--- Mimic shell movements
-map('i', '<C-E>', '<ESC>A', mapopts)
-map('i', '<C-A>', '<ESC>I', mapopts)
--- Tav to switch Buffers
-map("n", "<TAB>", ":bnext<CR>", mapopts)
-map("n", "<S-TAB>", ":bprevious<CR>", mapopts)
--- Better Tabbing, Stay in indent mode
-map("v", "<", "<gv", mapopts)
-map("v", ">", ">gv", mapopts)
--- Ctrl+BS to delete previous word
-map("!", "<C-BS>", "<C-w>", mapopts)
-map("!", "<C-h>", "<C-w>", mapopts)
+-- Shell movements
+map('i', '<C-E>', '<ESC>A', {noremap = true, silent = true})
+map('i', '<C-A>', '<ESC>I', {noremap = true, silent = true})
+-- Tab over buffers
+map("n", "<TAB>", ":bnext<CR>", {noremap = true, silent = true})
+map("n", "<S-TAB>", ":bprevious<CR>", {noremap = true, silent = true})
+-- Stay in indent mode
+map("v", "<", "<gv", {noremap = true, silent = true})
+map("v", ">", ">gv", {noremap = true, silent = true})
+-- Ctrl+BS deletes previous word
+map("!", "<C-BS>", "<C-w>", {noremap = true, silent = true})
+map("!", "<C-h>", "<C-w>", {noremap = true, silent = true})
 
 -- Snippets
 local function snip_setup()
