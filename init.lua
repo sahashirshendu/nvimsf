@@ -202,7 +202,7 @@ local function lsp_setup()
       nlsfmt.prettier,
       nlsfmt.black,
       nlsfmt.fprettify,
-      nlsfmt.shfmt,
+      nlsfmt.beautysh,
       nlsfmt.clang_format,
       nlsfmt.cmake_format,
       nlsfmt.stylua,
