@@ -22,15 +22,11 @@ o.wrap = false
 o.textwidth = 300
 o.tabstop = 2
 o.shiftwidth = 2
-o.softtabstop = -1 -- If negative, shiftwidth value is used
+o.softtabstop = -1
 o.showmode = false
 o.whichwrap = "b,s,<,>,[,],h,l"
 o.pumheight = 10
 o.pumblend = 10
--- o.list = true
--- o.listchars = 'trail:·,nbsp:◇,tab:→ ,extends:▸,precedes:◂'
--- o.listchars = 'eol:¬,space:·,lead: ,trail:·,nbsp:◇,tab:→-,extends:▸,precedes:◂,multispace:···⬝,leadmultispace:│   ,'
--- o.formatoptions = 'qrn1'
 o.clipboard = "unnamed,unnamedplus"
 o.ignorecase = true
 o.smartcase = true
@@ -41,7 +37,6 @@ o.swapfile = false
 o.history = 100
 o.splitright = true
 o.splitbelow = true
--- o.lazyredraw = true
 o.mouse = "a"
 
 -- Map <leader> to space
