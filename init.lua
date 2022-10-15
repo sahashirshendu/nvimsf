@@ -398,7 +398,6 @@ local function lsp_setup()
   local lspconfig = require("lspconfig")
   for server_name, _ in pairs(servers) do
     local options = vim.tbl_deep_extend("force", opts, servers[server_name] or {})
-
     lspconfig[server_name].setup(options)
   end
 end
