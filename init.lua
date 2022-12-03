@@ -487,13 +487,7 @@ local function plugins(use)
     "glepnir/dashboard-nvim",
     config = function()
       local db = require("dashboard")
-      db.custom_header = {
-        [[ ██╗   ██╗ ]],
-        [[ ██║   ██║ ]],
-        [[ ╚██╗ ██╔╝ ]],
-        [[  ╚████╔╝  ]],
-        [[   ╚═══╝   ]],
-      }
+      db.custom_header = {}
       db.custom_center = {
         { icon = "  ", desc = "New File                                ", action = "enew | startinsert", shortcut = " SPC n " },
         { icon = "  ", desc = "Config                                  ", action = "e $MYVIMRC", shortcut = " SPC E " },
