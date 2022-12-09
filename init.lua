@@ -396,6 +396,8 @@ local function lsp_setup()
 
   -- Set up LSP servers
   local lspconfig = require("lspconfig")
+  local lspwin = require("lspconfig.ui.windows")
+  lspwin.default_options.border = "single"
   for server_name, _ in pairs(servers) do
     local options = vim.tbl_deep_extend("force", opts, servers[server_name] or {})
     lspconfig[server_name].setup(options)
