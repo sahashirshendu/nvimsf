@@ -75,7 +75,7 @@ local function snip_setup()
     ext_base_prio = 200,
     ext_prio_increase = 1,
     updateevents = "TextChanged,TextChangedI",
-    enable_autosnippets = false,
+    enable_autosnippets = true,
     store_selection_keys = "<C-q>",
   })
 
