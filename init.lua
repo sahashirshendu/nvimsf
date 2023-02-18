@@ -214,7 +214,7 @@ local function lsp_setup()
         typeCheckingMode = "off",
       },
     },
-    sumneko_lua = {
+    lua_ls = {
       settings = {
         Lua = {
           runtime = { version = "LuaJIT", path = vim.split(package.path, ";") },
