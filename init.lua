@@ -488,28 +488,31 @@ local function plugins(use)
   use {
     "glepnir/dashboard-nvim",
     config = function()
+      -- require("db/init")
       local db = require("dashboard")
-      db.setup({
+      db.setup {
         theme = 'doom',
-        header = {
-          [[]],
-          [[]],
-          [[ ██╗   ██╗ ]],
-          [[ ██║   ██║ ]],
-          [[ ╚██╗ ██╔╝ ]],
-          [[  ╚████╔╝  ]],
-          [[   ╚═══╝   ]],
-          [[]],
-          [[]],
-        },
-        center = {
-          { icon = "  ", desc = "New File                                ", action = "enew | startinsert", key = " SPC n " },
-          { icon = "  ", desc = "Config                                  ", action = "e $MYVIMRC", key = " SPC E " },
-          { icon = "  ", desc = "Sync                                    ", action = "PackerSync", key = " SPC s " },
-          { icon = "  ", desc = "Quit                                    ", action = "qa", key = " SPC q " }
-        },
-        footer = { "  " .. #vim.tbl_keys(packer_plugins) .. " plugins" }
-      })
+        config = {
+          header = {
+            [[]],
+            [[]],
+            [[ ██╗   ██╗ ]],
+            [[ ██║   ██║ ]],
+            [[ ╚██╗ ██╔╝ ]],
+            [[  ╚████╔╝  ]],
+            [[   ╚═══╝   ]],
+            [[]],
+            [[]],
+          },
+          center = {
+            { icon = "  ", desc = "New File                                ", action = "enew | startinsert", key = " SPC n " },
+            { icon = "  ", desc = "Config                                  ", action = "e $MYVIMRC", key = " SPC E " },
+            { icon = "  ", desc = "Sync                                    ", action = "PackerSync", key = " SPC s " },
+            { icon = "  ", desc = "Quit                                    ", action = "qa", key = " SPC q " }
+          },
+          footer = { "  " .. #vim.tbl_keys(packer_plugins) .. " plugins" }
+        }
+      }
     end
   }
   -- Impatient
