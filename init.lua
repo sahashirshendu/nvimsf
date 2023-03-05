@@ -488,9 +488,7 @@ local function plugins(use)
   use {
     "glepnir/dashboard-nvim",
     config = function()
-      -- require("db/init")
-      local db = require("dashboard")
-      db.setup {
+      require("dashboard").setup {
         theme = 'doom',
         config = {
           header = {
