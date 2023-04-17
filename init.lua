@@ -526,4 +526,5 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins, opts)
 
 -- COLORSCHEMES
+vim.g.material_style = "deep ocean"
 local _, _ = pcall(api.nvim_command, 'colorscheme material')
