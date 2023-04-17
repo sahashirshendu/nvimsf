@@ -43,6 +43,9 @@ o.mouse = "a"
 g.mapleader = ' '
 g.maplocalleader = ' '
 
+-- COLORSCHEMES
+local _, _ = pcall(api.nvim_command, 'colorscheme material')
+
 -- KEYBINDINGS
 -- Shell movements
 map('i', '<C-E>', '<ESC>A', {noremap = true, silent = true})
@@ -402,40 +405,67 @@ local function lsp_setup()
 end
 
 -- PLUGINS
-local plugins = {
-  'nvim-lua/plenary.nvim',
+local packer_bootstrap = false
+local fn = vim.fn
+
+local conf = {
+  profile = {
+    enable = true,
+    threshold = 0,
+  },
+  display = {
+    open_fn = function()
+      return require("packer.util").float({ border = "single" })
+    end,
+  },
+}
+
+local function packer_init()
+  local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+  if fn.empty(fn.glob(install_path)) > 0 then
+    packer_bootstrap = fn.system({"git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path})
+    api.nvim_command('packadd packer.nvim')
+  end
+
+  api.nvim_create_autocmd("BufWritePost", { pattern = "init.lua", command = "source <afile> | PackerCompile" })
+end
+
+local function plugins(use)
+  -- Packer can manage itself
+  use 'wbthomason/packer.nvim'
+  use 'nvim-lua/plenary.nvim'
   -- Colorschemes
-  'marko-cerovac/material.nvim',
+  use 'marko-cerovac/material.nvim'
   -- Statusline
-  {
+  use {
     'nvim-lualine/lualine.nvim',
-    dependencies = { 'kyazdani42/nvim-web-devicons', opt = true },
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
     config = function()
       require('lualine').setup {
         options = { component_separators = "|", section_separators = { left = "", right = "" } },
         sections = { lualine_x = { "fileformat", "encoding", "filetype" }, lualine_y = { }, lualine_z = { { "location", separator = { left = "", right = "" }, left_padding = 2 } } },
       }
     end
-  },
-  {
+  }
+  use {
     "akinsho/bufferline.nvim",
     config = function() require("bufferline").setup { options = { offsets = { { filetype = "NvimTree", text = "File Explorer" } } } } end
-  },
+  }
   -- Treesitter
-  {
-    "nvim-treesitter/nvim-treesitter", build = ":TSUpdate",
-    dependencies = { "windwp/nvim-ts-autotag", "p00f/nvim-ts-rainbow" },
+  use {
+    "nvim-treesitter/nvim-treesitter", run = ":TSUpdate",
+    requires = { "windwp/nvim-ts-autotag", "p00f/nvim-ts-rainbow" },
     config = function() require("nvim-treesitter.configs").setup { ensure_installed = {"bash", "lua", "python"}, highlight = { enable = true, disable = { "" } }, autopairs = { enable = true }, rainbow = { enable = true } } end
-  },
-  { "windwp/nvim-autopairs", config = function() require('nvim-autopairs').setup() end },
+  }
+  use { "windwp/nvim-autopairs", config = function() require('nvim-autopairs').setup() end }
   -- NVimTree
-  { "kyazdani42/nvim-tree.lua", config = function() require('nvim-tree').setup() end },
+  use { "kyazdani42/nvim-tree.lua", config = function() require('nvim-tree').setup() end }
   -- Git
-  { "lewis6991/gitsigns.nvim", config = function() require('gitsigns').setup() end },
+  use { "lewis6991/gitsigns.nvim", config = function() require('gitsigns').setup() end }
   -- Comment
-  { "terrortylor/nvim-comment", config = function() require('nvim_comment').setup({ comment_empty = false }) end },
+  use { "terrortylor/nvim-comment", config = function() require('nvim_comment').setup({ comment_empty = false }) end }
   -- WhichKey
-  {
+  use {
     "folke/which-key.nvim",
     config = function()
       require("which-key").setup { plugins = { marks = false, registers = false, presets = { operators = false, motions = false, text_objects = false, windows = false, nav = false, z = false, g = false } }, window = { border = "single", padding = { 1, 1, 1, 1 } }, layout = { align = "center" } }
@@ -446,16 +476,16 @@ local plugins = {
         f = { ":Format<CR>", "Format" },
         E = { ":e $MYVIMRC<CR>", "Config" },
         c = { ":CommentToggle<CR>", "Comment" },
-        s = { ":Lazy sync<CR>", "Update Plugins" },
+        s = { ":PackerSync<CR>", "Update Plugins" },
         h = { ":s<CR>", "Horizontal Split" },
         v = { ":vs<CR>", "Vertical Split" },
         n = { ":enew <BAR> startinsert<CR>", "New File" },
       }, { prefix = "<leader>" })
       require("which-key").register({ c = { ":CommentToggle<CR>", "Comment" } }, { prefix = "<leader>", mode = "v" })
     end
-  },
+  }
   -- Dashboard
-  {
+  use {
     "glepnir/dashboard-nvim",
     config = function()
       require("dashboard").setup {
@@ -475,55 +505,56 @@ local plugins = {
           center = {
             { icon = "  ", desc = "New File                                ", action = "enew | startinsert", key = " SPC n " },
             { icon = "  ", desc = "Config                                  ", action = "e $MYVIMRC", key = " SPC E " },
-            { icon = "  ", desc = "Sync                                    ", action = "Lazy sync", key = " SPC s " },
+            { icon = "  ", desc = "Sync                                    ", action = "PackerSync", key = " SPC s " },
             { icon = "  ", desc = "Quit                                    ", action = "qa", key = " SPC q " }
           },
-          footer = { "  " .. #vim.tbl_keys(require("lazy").plugins()) .. " plugins" }
+          footer = { "  " .. #vim.tbl_keys(packer_plugins) .. " plugins" }
         }
       }
     end
-  },
+  }
   -- Impatient
-  "lewis6991/impatient.nvim",
+  use "lewis6991/impatient.nvim"
   -- CMP
-  {
+  use {
     "hrsh7th/nvim-cmp",
-    dependencies = {
+    requires = {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-nvim-lua",
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-path",
+      { "hrsh7th/cmp-buffer", after = "cmp-nvim-lua" },
+      { "hrsh7th/cmp-path", after = "cmp-nvim-lua" },
       "hrsh7th/cmp-cmdline",
       {
         "L3MON4D3/LuaSnip",
-        dependencies = { "saadparwaiz1/cmp_luasnip", "rafamadriz/friendly-snippets" },
+        after = "nvim-cmp",
+        requires = { "saadparwaiz1/cmp_luasnip", "rafamadriz/friendly-snippets" },
         config = snip_setup()
       },
     },
     config = cmp_setup()
-  },
+  }
   -- LSP
-  -- {
+  -- use {
   --   "neovim/nvim-lspconfig",
-  --   dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "jose-elias-alvarez/null-ls.nvim" },
+  --   requires = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "jose-elias-alvarez/null-ls.nvim" },
   --   config = lsp_setup()
   -- }
-}
 
-local opts = {
-  defaults = { lazy = false, },
-  install = { missing = true, },
-  ui = { border = "single", },
-  performance = {rtp = {disabled_plugins = {},},
-  },
-}
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({"git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable", lazypath})
+  if packer_bootstrap then
+    require("packer").sync()
+  end
 end
-vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup(plugins, opts)
+packer_init()
+local status_ok, packer = pcall(require, "packer")
+if not status_ok then
+  return
+end
 
--- COLORSCHEMES
-local _, _ = pcall(api.nvim_command, 'colorscheme material')
+local present, impatient = pcall(require, "impatient")
+if present then
+  impatient.enable_profile()
+end
+
+packer.init(conf)
+packer.startup(plugins)
