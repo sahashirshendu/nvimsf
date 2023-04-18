@@ -201,9 +201,9 @@ local function lsp_setup()
 
   -- LSP servers --
   local servers = {
-    bashls = {},
-    cssls = {},
-    emmet_ls = {},
+    -- bashls = {},
+    -- cssls = {},
+    -- emmet_ls = {},
     fortls = {},
     html = {},
     pyright = {
@@ -237,8 +237,8 @@ local function lsp_setup()
         },
       },
     },
-    texlab = {},
-    tsserver = { disable_formatting = true },
+    -- texlab = {},
+    -- tsserver = { disable_formatting = true },
     vimls = {},
   }
 
