@@ -497,17 +497,17 @@ local plugins = {
       {
         "L3MON4D3/LuaSnip",
         dependencies = { "saadparwaiz1/cmp_luasnip", "rafamadriz/friendly-snippets" },
-        config = snip_setup()
+        config = function() snip_setup() end
       },
     },
-    config = cmp_setup()
+    config = function() cmp_setup() end
   },
   -- LSP
   -- {
   --   "neovim/nvim-lspconfig",
-  --   dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "jose-elias-alvarez/null-ls.nvim" },
-  --   config = lsp_setup()
-  -- }
+  --   dependencies = {{"williamboman/mason.nvim", build = ":MasonUpdate"}, "williamboman/mason-lspconfig.nvim", "jose-elias-alvarez/null-ls.nvim",},
+  --   config = function() lsp_setup() end
+  -- },
 }
 
 local opts = {
