@@ -512,7 +512,12 @@ local plugins = {
 
 local opts = {
   defaults = { lazy = false, },
-  install = { missing = true, },
+  checker = { enabled = false, },
+  change_detection = { enabled = true, },
+  install = {
+    missing = true,
+    colorscheme = { "material" },
+  },
   ui = { border = "single", },
   performance = {rtp = {disabled_plugins = {},},
   },
