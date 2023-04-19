@@ -405,7 +405,7 @@ end
 local plugins = {
   'nvim-lua/plenary.nvim',
   -- Colorschemes
-  'marko-cerovac/material.nvim',
+  'ellisonleao/gruvbox.nvim',
   -- Statusline
   {
     'nvim-lualine/lualine.nvim',
@@ -531,5 +531,4 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins, opts)
 
 -- COLORSCHEMES
-vim.g.material_style = "deep ocean"
-local _, _ = pcall(api.nvim_command, 'colorscheme material')
+local _, _ = pcall(api.nvim_command, 'colorscheme gruvbox')
