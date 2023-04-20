@@ -512,10 +512,7 @@ local plugins = {
 
 local opts = {
   defaults = { lazy = false, },
-  checker = { enabled = false, },
-  change_detection = { enabled = true, },
   install = {
-    missing = true,
     colorscheme = { "material" },
   },
   ui = { border = "single", },
