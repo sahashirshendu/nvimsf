@@ -65,7 +65,7 @@ local function snip_setup()
   end
 
   local snip_folder = vim.fn.stdpath("config") .. "/snippets/"
-  vim.api.nvim_create_user_command("LuaSnipEdit", "lua require('luasnip.loaders').edit_snippet_files()", {})
+  api.nvim_create_user_command("LuaSnipEdit", "lua require('luasnip.loaders').edit_snippet_files()", {})
 
   luasnip.config.set_config({
     history = true,
@@ -88,12 +88,12 @@ end
 -- CMP
 local function cmp_setup()
   local has_words_before = function()
-    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+    local line, col = unpack(api.nvim_win_get_cursor(0))
+    return col ~= 0 and api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
   end
 
   -- local feedkey = function(key, mode)
-  --   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+  --   api.nvim_feedkeys(api.nvim_replace_termcodes(key, true, true, true), mode, true)
   -- end
 
   local cmp_status_ok, cmp = pcall(require, "cmp")
@@ -192,9 +192,9 @@ local function lsp_setup()
       nlsfmt.prettier,
       nlsfmt.black,
       nlsfmt.fprettify,
-      nlsfmt.beautysh,
-      nlsfmt.clang_format,
-      nlsfmt.cmake_format,
+      -- nlsfmt.beautysh,
+      -- nlsfmt.clang_format,
+      -- nlsfmt.cmake_format,
       nlsfmt.stylua,
     },
   })
@@ -409,7 +409,7 @@ local plugins = {
   -- Statusline
   {
     'nvim-lualine/lualine.nvim',
-    dependencies = { 'kyazdani42/nvim-web-devicons', opt = true },
+    dependencies = { 'kyazdani42/nvim-web-devicons', },
     config = function()
       require('lualine').setup {
         options = { component_separators = "|", section_separators = { left = "", right = "" } },
@@ -419,7 +419,7 @@ local plugins = {
   },
   {
     "akinsho/bufferline.nvim",
-    config = function() require("bufferline").setup { options = { offsets = { { filetype = "NvimTree", text = "File Explorer" } } } } end
+    config = function() require("bufferline").setup { options = { offsets = { { filetype = "NvimTree", text = "Files" } } } } end
   },
   -- Treesitter
   {
