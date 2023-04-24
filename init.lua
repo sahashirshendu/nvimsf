@@ -318,8 +318,6 @@ local function lsp_setup()
       float = { focusable = true, style = "minimal", border = "rounded", },
       diagnostic = {
         -- virtual_text = false,
-        -- virtual_text = { spacing = 4, prefix = "●" },
-        virtual_text = { severity = vim.diagnostic.severity.ERROR },
         signs = { active = signs, },
         underline = true,
         update_in_insert = false,
@@ -349,13 +347,13 @@ local function lsp_setup()
       api.nvim_buf_set_option(bufnr, "tagfunc", "v:lua.vim.lsp.tagfunc")
     end
     -- Disable Formatting for tsserver, sumneko-lua
-    if client.name == "tsserver" or client.name == "sumneko_lua" then
+    if client.name == "tsserver" or client.name == "lua_ls" then
       client.server_capabilities.document_formatting = false
     end
 
-    -- require("keymaps").setup(client, bufnr)
-    -- require("highlighter").setup(client, bufnr)
-    -- require("formatting").setup(client, bufnr)
+    -- keymaps(client, bufnr)
+    -- highlighter(client, bufnr)
+    -- formatting(client, bufnr)
   end
 
   -- LSP setup --
