@@ -511,7 +511,7 @@ local plugins = {
 local opts = {
   defaults = { lazy = false, },
   install = {
-    colorscheme = { "material" },
+    colorscheme = { 'gruvbox' },
   },
   ui = { border = "single", },
 }
