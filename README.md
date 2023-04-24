@@ -18,7 +18,7 @@ git clone https://gitlab.com/shirshendusaha/nvimsf.git ~/.config.nvim
 Run neovim with `neovim`.
 Learn the basics of (Neo)Vim by running `:Tutor`.
 Just for info, to quit `neovim` enter `ZZ` or `:q`.
-On first run, to sync the plugins, enter `:PackerSync`.
+On first run, to sync the plugins, enter `:Lazy sync`.
 
 By default, the configuration has Language Server Protocol (LSP) set up, but not enabled.
 To enable LSP, uncomment the LSP section of the Plugins function which also calls the `lsp_setup()` function.
