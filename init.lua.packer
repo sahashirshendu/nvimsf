@@ -1,6 +1,7 @@
 -- PLUGINS
 local packer_bootstrap = false
 local fn = vim.fn
+local api = vim.api
 
 local conf = {
   profile = {
