@@ -514,8 +514,6 @@ local opts = {
     colorscheme = { "material" },
   },
   ui = { border = "single", },
-  performance = {rtp = {disabled_plugins = {},},
-  },
 }
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
