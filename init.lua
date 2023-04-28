@@ -454,7 +454,7 @@ local plugins = {
   },
   -- Dashboard
   {
-    "glepnir/dashboard-nvim",
+    "nvimdev/dashboard-nvim",
     config = function()
       require("dashboard").setup {
         theme = 'doom',
