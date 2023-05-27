@@ -481,8 +481,6 @@ local plugins = {
       }
     end
   },
-  -- Impatient
-  "lewis6991/impatient.nvim",
   -- CMP
   {
     "hrsh7th/nvim-cmp",
