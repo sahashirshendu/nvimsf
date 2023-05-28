@@ -506,21 +506,13 @@ local plugins = {
   -- },
 }
 
-local opts = {
-  defaults = { lazy = false, },
-  install = {
-    colorscheme = { 'gruvbox' },
-  },
-  ui = { border = "single", },
-}
-
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({"git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable", lazypath})
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup(plugins, opts)
+require("lazy").setup(plugins, {ui = {border = "single"}})
 
 -- COLORSCHEMES
 local _, _ = pcall(api.nvim_command, 'colorscheme gruvbox')
