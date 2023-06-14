@@ -85,225 +85,24 @@ local function snip_setup()
   -- require("luasnip.loaders.from_lua").lazy_load({ paths = snip_folder })
 end
 
--- CMP
-local function cmp_setup()
-  local has_words_before = function()
-    local line, col = unpack(api.nvim_win_get_cursor(0))
-    return col ~= 0 and api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-  end
-
-  -- local feedkey = function(key, mode)
-  --   api.nvim_feedkeys(api.nvim_replace_termcodes(key, true, true, true), mode, true)
-  -- end
-
-  local cmp_status_ok, cmp = pcall(require, "cmp")
-  if not cmp_status_ok then
-    return
-  end
-
-  local snip_status_ok, luasnip = pcall(require, "luasnip")
-  if not snip_status_ok then
-    return
-  end
-
-  cmp.setup({
-    completion = {
-      completeopt = "menu,menuone,noselect,noinsert",
-      keyword_length = 1,
-    },
-    snippet = {
-      expand = function(args)
-        luasnip.lsp_expand(args.body)
-      end,
-    },
-    mapping = cmp.mapping.preset.insert {
-      ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-      ["<C-f>"] = cmp.mapping.scroll_docs(4),
-      ["<C-Space>"] = cmp.mapping.complete(),
-      ["<C-y>"] = cmp.config.disable,
-      ["<C-e>"] = cmp.mapping.abort(),
-      ["<CR>"] = cmp.mapping.confirm {
-        behavior = cmp.ConfirmBehavior.Replace,
-        select = true,
-      },
-      ["<Tab>"] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-          cmp.select_next_item()
-        elseif luasnip.expandable() then
-          luasnip.expand()
-        elseif luasnip.expand_or_jumpable() then
-          luasnip.expand_or_jump()
-        elseif has_words_before() then
-          cmp.complete()
-        else
-          fallback()
-        end
-      end, { "i", "s" }),
-      ["<S-Tab>"] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-          cmp.select_prev_item()
-        elseif luasnip.jumpable(-1) then
-          luasnip.jump(-1)
-        else
-          fallback()
-        end
-      end, { "i", "s" }),
-    },
-    sources = {
-      { name = "nvim_lsp" },
-      { name = "nvim_lua" },
-      { name = "luasnip" },
-      { name = "buffer" },
-      { name = "path" },
-      { name = "treesitter" },
-    },
-    window = {
-      documentation = { border = "single", },
-    },
-  })
-
-  cmp.setup.cmdline("/", {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = { { name = "buffer" } },
-  })
-
-  cmp.setup.cmdline(":", {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = cmp.config.sources{ { name = "path" }, { name = "cmdline" } },
-  })
-end
-
 -- LSP
 local function lsp_setup()
-  -- Null-LS --
-  local null_ls_status_ok, null_ls = pcall(require, "null-ls")
-  if not null_ls_status_ok then
-    return
-  end
-
-  local nlsfmt = null_ls.builtins.formatting
-  -- local diagnostics = null_ls.builtins.diagnostics
-
-  api.nvim_create_user_command("Format", "lua vim.lsp.buf.format({ async = true })", {}) -- Builtin Formatting of NVim LSP
-
-  null_ls.setup({
-    debug = false,
-    sources = {
-      nlsfmt.prettier,
-      nlsfmt.black,
-      nlsfmt.fprettify,
-      -- nlsfmt.beautysh,
-      -- nlsfmt.clang_format,
-      -- nlsfmt.cmake_format,
-      nlsfmt.stylua,
-    },
-  })
-
   -- LSP servers --
   local servers = {
-    -- bashls = {},
-    -- cssls = {},
-    -- emmet_ls = {},
     fortls = {},
-    html = {},
-    pyright = {
-      analysis = {
-        typeCheckingMode = "off",
-      },
-    },
+    pyright = {analysis = {typeCheckingMode = "off"}},
     lua_ls = {
       settings = {
         Lua = {
-          runtime = { version = "LuaJIT", path = vim.split(package.path, ";") },
-          diagnostics = {
-            globals = { "vim", "describe", "it", "before_each", "after_each", "packer_plugins" },
-            -- disable = { "lowercase-global", "undefined-global", "unused-local", "unused-vararg", "trailing-space" },
-          },
-          workspace = {
-            library = {
-              [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-              [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
-              [vim.fn.stdpath("config") .. "/lua"] = true,
-            },
-            -- library = api.nvim_get_runtime_file("", true),
-            maxPreload = 2000,
-            preloadFileSize = 50000,
-          },
-          completion = { callSnippet = "Both" },
-          telemetry = { enable = false },
-          hint = {
-            enable = true,
-          },
+          runtime = {version = "LuaJIT"},
+          workspace = {library = vim.api.nvim_get_runtime_file("", true), checkThirdParty = false},
+          completion = {callSnippet = "Replace"},
+          telemetry = {enable = false},
+          hint = {enable = true},
         },
       },
     },
-    -- texlab = {},
-    -- tsserver = { disable_formatting = true },
-    vimls = {},
   }
-
-  -- LSP functions --
-  local function keymaps(client, bufnr)
-    local opts = { noremap = true, silent = true }
-    map("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-    map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-    map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-    map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-    map("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-    map("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-    map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-    map("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-    map("n", "<leader>f", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
-    map("n", "[d", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>', opts)
-    map("n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
-    map("n", "]d", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>', opts)
-    map("n", "<leader>q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
-  end
-
-  local function highlighter(client, bufnr)
-    if client.server_capabilities.documentHighlightProvider then
-      local lsp_highlight_grp = api.nvim_create_augroup("LspDocumentHighlight", { clear = true })
-      api.nvim_create_autocmd("CursorHold", {
-        callback = function()
-          vim.schedule(vim.lsp.buf.document_highlight)
-        end,
-        group = lsp_highlight_grp,
-        buffer = bufnr,
-      })
-      api.nvim_create_autocmd("CursorMoved", {
-        callback = function()
-          vim.schedule(vim.lsp.buf.clear_references)
-        end,
-        group = lsp_highlight_grp,
-        buffer = bufnr,
-      })
-    end
-  end
-
-  local function formatting(client, bufnr)
-    if client.server_capabilities.documentFormattingProvider then
-      local function format()
-        local view = vim.fn.winsaveview()
-        vim.lsp.buf.format({
-          async = true,
-          filter = function(attached_client)
-            return attached_client.name ~= ""
-          end,
-        })
-        vim.fn.winrestview(view)
-        print("Formatted!")
-      end
-
-      local lsp_format_grp = api.nvim_create_augroup("LspFormat", { clear = true })
-      api.nvim_create_autocmd("BufWritePre", {
-        callback = function()
-          vim.schedule(format)
-        end,
-        group = lsp_format_grp,
-        buffer = bufnr,
-      })
-    end
-  end
 
   local function lsp_handlers()
     -- Diagnostic Signs
@@ -315,14 +114,14 @@ local function lsp_setup()
 
     -- LSP handlers configuration
     local config = {
-      float = { focusable = true, style = "minimal", border = "rounded", },
+      float = { focusable = true, style = "minimal", border = "single", },
       diagnostic = {
         -- virtual_text = false,
         signs = { active = signs, },
         underline = true,
         update_in_insert = false,
         severity_sort = true,
-        float = { focusable = true, style = "minimal", border = "rounded", source = "always", header = "", prefix = "", },
+        float = { focusable = true, style = "minimal", border = "single", source = "always", header = "", prefix = "", },
         -- virtual_lines = true,
       },
     }
@@ -338,22 +137,10 @@ local function lsp_setup()
   end
 
   local function on_attach(client, bufnr)
-    -- Enable completion triggered by <C-X><C-O>
-    api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-    -- Use LSP as the handler for formatexpr.
-    api.nvim_buf_set_option(0, "formatexpr", "v:lua.vim.lsp.formatexpr()")
-    -- tagfunc
-    if client.server_capabilities.definitionProvider then
-      api.nvim_buf_set_option(bufnr, "tagfunc", "v:lua.vim.lsp.tagfunc")
-    end
     -- Disable Formatting for tsserver, sumneko-lua
-    if client.name == "tsserver" or client.name == "lua_ls" then
-      client.server_capabilities.document_formatting = false
-    end
-
-    -- keymaps(client, bufnr)
-    -- highlighter(client, bufnr)
-    -- formatting(client, bufnr)
+    -- if client.name == "tsserver" or client.name == "lua_ls" then
+    --   client.server_capabilities.document_formatting = false
+    -- end
   end
 
   -- LSP setup --
@@ -368,21 +155,10 @@ local function lsp_setup()
     flags = { debounce_text_changes = 150 },
   }
 
-  local ms_status_ok, mason = pcall(require, "mason")
-  if not ms_status_ok then
-    return
-  end
   local msls_status_ok, mason_lspconfig = pcall(require, "mason-lspconfig")
   if not msls_status_ok then
     return
   end
-
-  mason.setup({
-    ui = {
-      border = "single",
-      icons = { package_installed = "✓", package_pending = "➜", package_uninstalled = "✗" },
-    },
-  })
 
   mason_lspconfig.setup({
     ensure_installed = vim.tbl_keys(servers),
@@ -403,53 +179,48 @@ end
 local plugins = {
   'nvim-lua/plenary.nvim',
   -- Colorschemes
-  'ellisonleao/gruvbox.nvim',
+  {'ellisonleao/gruvbox.nvim', config = function() vim.cmd('colorscheme gruvbox') end},
   -- Statusline
   {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'kyazdani42/nvim-web-devicons', },
-    config = function()
-      require('lualine').setup {
-        options = { component_separators = "|", section_separators = { left = "", right = "" } },
-        sections = { lualine_x = { "fileformat", "encoding", "filetype" }, lualine_y = { }, lualine_z = { { "location", separator = { left = "", right = "" }, left_padding = 2 } } },
-      }
-    end
+    opts = {
+      options = { component_separators = "|", section_separators = { left = "", right = "" } },
+      sections = { lualine_x = { "fileformat", "encoding", "filetype" }, lualine_y = { }, lualine_z = { { "location", separator = { left = "", right = "" }, left_padding = 2 } } },
+    }
   },
-  {
-    "akinsho/bufferline.nvim",
-    config = function() require("bufferline").setup { options = { offsets = { { filetype = "NvimTree", text = "Files" } } } } end
-  },
+  {"akinsho/bufferline.nvim", opts = {options = {always_show_bufferline = false, show_buffer_close_icons = false, offsets = {{filetype = "NvimTree", text = "Files"}}}}},
   -- Treesitter
   {
     "nvim-treesitter/nvim-treesitter", build = ":TSUpdate",
     dependencies = { "windwp/nvim-ts-autotag", "p00f/nvim-ts-rainbow" },
-    config = function() require("nvim-treesitter.configs").setup { ensure_installed = {"bash", "lua", "python"}, highlight = { enable = true, disable = { "" } }, autopairs = { enable = true }, rainbow = { enable = true } } end
+    config = function() require("nvim-treesitter.configs").setup {ensure_installed = {"bash", "lua", "python"}, highlight = {enable = true, disable = {""}}, autopairs = {enable = true}, rainbow = {enable = true}} end
   },
-  { "windwp/nvim-autopairs", config = function() require('nvim-autopairs').setup() end },
+  {"windwp/nvim-autopairs", opts = {}},
   -- NVimTree
-  { "kyazdani42/nvim-tree.lua", config = function() require('nvim-tree').setup() end },
+  {"kyazdani42/nvim-tree.lua", opts = {}},
   -- Git
-  { "lewis6991/gitsigns.nvim", config = function() require('gitsigns').setup() end },
+  {"lewis6991/gitsigns.nvim", opts = {}},
   -- Comment
-  { "terrortylor/nvim-comment", config = function() require('nvim_comment').setup({ comment_empty = false }) end },
+  {"terrortylor/nvim-comment", name = "nvim_comment", opts = {comment_empty = false}},
   -- WhichKey
   {
     "folke/which-key.nvim",
     config = function()
-      require("which-key").setup { plugins = { marks = false, registers = false, presets = { operators = false, motions = false, text_objects = false, windows = false, nav = false, z = false, g = false } }, window = { border = "single", padding = { 1, 1, 1, 1 } }, layout = { align = "center" } }
+      require("which-key").setup {plugins = {marks = false, registers = false, presets = {operators = false, motions = false, text_objects = false, windows = false, nav = false, z = false, g = false}}, window = {border = "single", padding = {1, 1, 1, 1}}, layout = {align = "center"}}
       require("which-key").register({
-        q = { ":q<CR>", "Quit" },
-        w = { ":w<CR>", "Write" },
-        e = { ":NvimTreeToggle<CR>", "Files" },
-        f = { ":Format<CR>", "Format" },
-        E = { ":e $MYVIMRC<CR>", "Config" },
-        c = { ":CommentToggle<CR>", "Comment" },
-        s = { ":Lazy sync<CR>", "Update Plugins" },
-        h = { ":s<CR>", "Horizontal Split" },
-        v = { ":vs<CR>", "Vertical Split" },
-        n = { ":enew <BAR> startinsert<CR>", "New File" },
-      }, { prefix = "<leader>" })
-      require("which-key").register({ c = { ":CommentToggle<CR>", "Comment" } }, { prefix = "<leader>", mode = "v" })
+        q = {":q<CR>", "Quit"},
+        w = {":w<CR>", "Write"},
+        e = {":NvimTreeToggle<CR>", "Files"},
+        f = {":Format<CR>", "Format"},
+        E = {":e $MYVIMRC<CR>", "Config"},
+        c = {":CommentToggle<CR>", "Comment"},
+        s = {":Lazy sync<CR>", "Update Plugins"},
+        h = {":s<CR>", "Horizontal Split"},
+        v = {":vs<CR>", "Vertical Split"},
+        n = {":enew <BAR> startinsert<CR>", "New File"},
+      }, {prefix = "<leader>"})
+      require("which-key").register({c = {":CommentToggle<CR>", "Comment"}}, {prefix = "<leader>", mode = "v"})
     end
   },
   -- Dashboard
@@ -496,14 +267,90 @@ local plugins = {
         config = function() snip_setup() end
       },
     },
-    config = function() cmp_setup() end
+    config = function()
+      local cmp = require("cmp")
+      local luasnip = require("luasnip")
+      local has_words_before = function()
+        local line, col = unpack(api.nvim_win_get_cursor(0))
+        return col ~= 0 and api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+      end
+      cmp.setup({
+        completion = {completeopt = "menu,menuone,noselect,noinsert", keyword_length = 1},
+        snippet = {
+          expand = function(args)
+            luasnip.lsp_expand(args.body)
+          end,
+        },
+        mapping = cmp.mapping.preset.insert {
+          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+          ["<C-f>"] = cmp.mapping.scroll_docs(4),
+          ["<C-Space>"] = cmp.mapping.complete(),
+          ["<C-y>"] = cmp.config.disable,
+          ["<C-e>"] = cmp.mapping.abort(),
+          ["<CR>"] = cmp.mapping.confirm {behavior = cmp.ConfirmBehavior.Replace, select = true},
+          ["<Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_next_item()
+            elseif luasnip.expand_or_jumpable() then
+              luasnip.expand_or_jump()
+            elseif has_words_before() then
+              cmp.complete()
+            else
+              fallback()
+            end
+          end, {"i", "s"}),
+          ["<S-Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_prev_item()
+            elseif luasnip.jumpable(-1) then
+              luasnip.jump(-1)
+            else
+              fallback()
+            end
+          end, {"i", "s"}),
+        },
+        sources = {
+          {name = "nvim_lsp"},
+          {name = "nvim_lua"},
+          {name = "luasnip"},
+          {name = "buffer"},
+          {name = "path"},
+        },
+        window = {documentation = {border = "single"}},
+      })
+      cmp.setup.cmdline("/", {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = {{name = "buffer"}},
+      })
+      cmp.setup.cmdline(":", {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = cmp.config.sources{{name = "path"}, {name = "cmdline"}},
+      })
+    end
   },
   -- LSP
-  -- {
-  --   "neovim/nvim-lspconfig",
-  --   dependencies = {{"williamboman/mason.nvim", build = ":MasonUpdate"}, "williamboman/mason-lspconfig.nvim", "jose-elias-alvarez/null-ls.nvim",},
-  --   config = function() lsp_setup() end
-  -- },
+  {
+    "neovim/nvim-lspconfig",
+    enabled = false,
+    dependencies = {
+      {
+        "williamboman/mason.nvim",
+        build = ":MasonUpdate",
+        opts = {ui = {border = "single"}, ensure_installed = {}},
+      },
+      "williamboman/mason-lspconfig.nvim",
+      {
+        "jose-elias-alvarez/null-ls.nvim",
+        config = function()
+          local nls = require("null-ls")
+          local nlsfmt = nls.builtins.formatting
+          api.nvim_create_user_command("Format", "lua vim.lsp.buf.format({async = true})", {}) -- Builtin Formatting of NVim LSP
+          nls.setup {border = "single", debug = false, sources = {nlsfmt.fprettify, nlsfmt.black, nlsfmt.stylua}}
+        end,
+      },
+    },
+    config = function() lsp_setup() end
+  },
 }
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -513,6 +360,3 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup(plugins, {ui = {border = "single"}})
-
--- COLORSCHEMES
-local _, _ = pcall(api.nvim_command, 'colorscheme gruvbox')
