@@ -242,10 +242,10 @@ local plugins = {
             [[]],
           },
           center = {
-            { icon = "  ", desc = "New File                                ", action = "enew | startinsert", key = " SPC n " },
+            { icon = "󰈔  ", desc = "New File                                ", action = "enew | startinsert", key = " SPC n " },
             { icon = "  ", desc = "Config                                  ", action = "e $MYVIMRC", key = " SPC E " },
             { icon = "  ", desc = "Sync                                    ", action = "Lazy sync", key = " SPC s " },
-            { icon = "  ", desc = "Quit                                    ", action = "qa", key = " SPC q " }
+            { icon = "󰅚  ", desc = "Quit                                    ", action = "qa", key = " SPC q " }
           },
           footer = { "  " .. #vim.tbl_keys(require("lazy").plugins()) .. " plugins" }
         }
