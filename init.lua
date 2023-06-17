@@ -96,9 +96,7 @@ local function lsp_setup()
         Lua = {
           runtime = {version = "LuaJIT"},
           workspace = {library = vim.api.nvim_get_runtime_file("", true), checkThirdParty = false},
-          completion = {callSnippet = "Replace"},
           telemetry = {enable = false},
-          hint = {enable = true},
         },
       },
     },
