@@ -9,7 +9,6 @@ o.termguicolors = true
 -- o.hidden = true
 o.timeoutlen = 200
 o.updatetime = 200
-o.scrolloff = 3 -- Number of screen lines to keep above and below the cursor
 o.number = true -- Line Number
 o.relativenumber = false -- Relative line number
 o.signcolumn = 'yes'
