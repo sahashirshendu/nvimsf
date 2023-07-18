@@ -174,35 +174,34 @@ end
 
 -- PLUGINS
 local plugins = {
-  'nvim-lua/plenary.nvim',
   -- Colorschemes
-  {'ellisonleao/gruvbox.nvim', config = function() vim.cmd('colorscheme gruvbox') end},
+  {'sainnhe/everforest', config = function() vim.cmd('colorscheme everforest') end},
   -- Statusline
   {
-    'nvim-lualine/lualine.nvim',
+    'nvim-lualine/lualine.nvim', event = 'VeryLazy',
     dependencies = 'kyazdani42/nvim-web-devicons',
     opts = {
       options = {component_separators = '|', section_separators = {left = '', right = ''}},
       sections = {lualine_x = {'fileformat', 'encoding', 'filetype'}, lualine_y = {}, lualine_z = {{'location', separator = {left = '', right = ''}, left_padding = 2}}},
     }
   },
-  {'akinsho/bufferline.nvim', opts = {options = {always_show_bufferline = false, show_buffer_close_icons = false, offsets = {{filetype = 'NvimTree', text = 'Files'}}}}},
+  {'akinsho/bufferline.nvim', event = 'BufEnter', opts = {options = {always_show_bufferline = false, show_buffer_close_icons = false, offsets = {{filetype = 'NvimTree', text = 'Files'}}}}},
   -- Treesitter
   {
-    'nvim-treesitter/nvim-treesitter', build = ':TSUpdate',
+    'nvim-treesitter/nvim-treesitter', build = ':TSUpdate', event = {'BufRead', 'InsertEnter'},
     dependencies = { 'windwp/nvim-ts-autotag', 'p00f/nvim-ts-rainbow'},
     config = function() require('nvim-treesitter.configs').setup {ensure_installed = {'bash', 'lua', 'python'}, highlight = {enable = true, disable = {''}}, autopairs = {enable = true}, rainbow = {enable = true}} end
   },
-  {'windwp/nvim-autopairs', opts = {}},
+  {'windwp/nvim-autopairs', event = 'InsertEnter', opts = {}},
   -- NVimTree
-  {'kyazdani42/nvim-tree.lua', opts = {}},
+  {'kyazdani42/nvim-tree.lua', cmd = 'NvimTreeToggle', opts = {}},
   -- Git
-  {'lewis6991/gitsigns.nvim', opts = {}},
+  {'lewis6991/gitsigns.nvim', event = {'BufReadPre', 'BufNewFile', 'InsertEnter'}, dependencies = 'nvim-lua/plenary.nvim', opts = {}},
   -- Comment
-  {'terrortylor/nvim-comment', name = 'nvim_comment', opts = {comment_empty = false}},
+  {'terrortylor/nvim-comment', name = 'nvim_comment', event = {'BufRead', 'BufReadPre', 'BufNewFile', 'InsertEnter'}, opts = {comment_empty = false}},
   -- WhichKey
   {
-    'folke/which-key.nvim',
+    'folke/which-key.nvim', keys = '<leader>',
     config = function()
       require('which-key').setup {plugins = {marks = false, registers = false, presets = {operators = false, motions = false, text_objects = false, windows = false, nav = false, z = false, g = false}}, window = {border = 'single', padding = {1, 1, 1, 1}}, layout = {align = 'center'}}
       require('which-key').register({
@@ -222,7 +221,7 @@ local plugins = {
   },
   -- Dashboard
   {
-    'nvimdev/dashboard-nvim',
+    'nvimdev/dashboard-nvim', event = 'VimEnter',
     config = function()
       require('dashboard').setup {
         theme = 'doom',
@@ -241,6 +240,7 @@ local plugins = {
           center = {
             { icon = '󰈔  ', desc = 'New File                                ', action = 'enew | startinsert', key = ' SPC n ' },
             { icon = '  ', desc = 'Config                                  ', action = 'e $MYVIMRC', key = ' SPC E ' },
+            { icon = '  ', desc = 'Plugins                                 ', action = 'Lazy', key = ' SPC p ' },
             { icon = '  ', desc = 'Sync                                    ', action = 'Lazy sync', key = ' SPC s ' },
             { icon = '󰅚  ', desc = 'Quit                                    ', action = 'qa', key = ' SPC q ' }
           },
@@ -251,7 +251,7 @@ local plugins = {
   },
   -- CMP
   {
-    'hrsh7th/nvim-cmp',
+    'hrsh7th/nvim-cmp', event = 'InsertEnter',
     dependencies = {
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-nvim-lua',
@@ -329,6 +329,7 @@ local plugins = {
   {
     'neovim/nvim-lspconfig',
     enabled = false,
+    event = {'BufReadPre', 'BufNewFile'}, cmd = {'LspInfo', 'LspStart', 'LspInstall', 'LspUninstall'},
     dependencies = {
       {
         'williamboman/mason.nvim',
