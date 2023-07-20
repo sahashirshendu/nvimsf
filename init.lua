@@ -196,9 +196,9 @@ local plugins = {
   -- NVimTree
   {'kyazdani42/nvim-tree.lua', cmd = 'NvimTreeToggle', opts = {}},
   -- Git
-  {'lewis6991/gitsigns.nvim', event = {'BufReadPre', 'BufNewFile', 'InsertEnter'}, dependencies = 'nvim-lua/plenary.nvim', opts = {}},
+  {'lewis6991/gitsigns.nvim', event = {'BufRead', 'BufNewFile'}, dependencies = 'nvim-lua/plenary.nvim', opts = {}},
   -- Comment
-  {'terrortylor/nvim-comment', name = 'nvim_comment', event = {'BufRead', 'BufReadPre', 'BufNewFile', 'InsertEnter'}, opts = {comment_empty = false}},
+  {'terrortylor/nvim-comment', name = 'nvim_comment', event = {'BufRead', 'BufNewFile'}, opts = {comment_empty = false}},
   -- WhichKey
   {
     'folke/which-key.nvim', keys = '<leader>',
