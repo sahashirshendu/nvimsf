@@ -324,7 +324,7 @@ local plugins = {
   -- LSP
   {
     'neovim/nvim-lspconfig',
-    enabled = true,
+    enabled = false,
     event = {'BufReadPre', 'BufNewFile'}, cmd = {'LspInfo', 'LspStart', 'LspInstall', 'LspUninstall'},
     dependencies = {
       {'williamboman/mason.nvim', build = ':MasonUpdate', opts = {ui = {border = 'single'}, ensure_installed = {}}},
