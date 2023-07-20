@@ -75,22 +75,22 @@ local function lsp_setup()
 
   local function lsp_handlers()
     -- Diagnostic Signs
-    local signs = { Error = ' ', Warn = ' ', Hint = ' ', Info = ' ' }
+    local signs = {Error = ' ', Warn = ' ', Hint = ' ', Info = ' '}
     for type, icon in pairs(signs) do
       local hl = 'DiagnosticSign' .. type
-      vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
+      vim.fn.sign_define(hl, {text = icon, texthl = hl, numhl = ''})
     end
 
     -- LSP handlers configuration
     local config = {
-      float = { focusable = true, style = 'minimal', border = 'single', },
+      float = {focusable = true, style = 'minimal', border = 'single'},
       diagnostic = {
         -- virtual_text = false,
-        signs = { active = signs, },
+        signs = {active = signs},
         underline = true,
         update_in_insert = false,
         severity_sort = true,
-        float = { focusable = true, style = 'minimal', border = 'single', source = 'always', header = '', prefix = '', },
+        float = {focusable = true, style = 'minimal', border = 'single', source = 'always', header = '', prefix = ''},
         -- virtual_lines = true,
       },
     }
