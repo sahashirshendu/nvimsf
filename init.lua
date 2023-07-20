@@ -56,34 +56,6 @@ map('v', '>', '>gv', {noremap = true, silent = true})
 map('!', '<C-BS>', '<C-w>', {noremap = true, silent = true})
 map('!', '<C-h>', '<C-w>', {noremap = true, silent = true})
 
--- Snippets
-local function snip_setup()
-  local snip_status_ok, luasnip = pcall(require, 'luasnip')
-  if not snip_status_ok then
-    return
-  end
-
-  local snip_folder = vim.fn.stdpath('config') .. '/snippets/'
-  api.nvim_create_user_command('LuaSnipEdit', 'lua require("luasnip.loaders").edit_snippet_files()', {})
-
-  luasnip.config.set_config({
-    history = true,
-    ext_base_prio = 200,
-    ext_prio_increase = 1,
-    updateevents = 'TextChanged,TextChangedI',
-    enable_autosnippets = true,
-    store_selection_keys = '<C-q>',
-  })
-
-  -- luasnip.filetype_extend('all', { '_' })
-
-  -- Load Snippets
-  require('luasnip.loaders.from_vscode').lazy_load()
-  -- require('luasnip.loaders.from_vscode').lazy_load({ paths = snip_folder })
-  require('luasnip.loaders.from_snipmate').lazy_load({ paths = snip_folder })
-  -- require('luasnip.loaders.from_lua').lazy_load({ paths = snip_folder })
-end
-
 -- LSP
 local function lsp_setup()
   -- LSP servers --
@@ -260,7 +232,32 @@ local plugins = {
       {
         'L3MON4D3/LuaSnip',
         dependencies = { 'saadparwaiz1/cmp_luasnip', 'rafamadriz/friendly-snippets' },
-        config = function() snip_setup() end
+        config = function()
+          local snip_status_ok, luasnip = pcall(require, 'luasnip')
+          if not snip_status_ok then
+            return
+          end
+
+          local snip_folder = vim.fn.stdpath('config') .. '/snippets/'
+          api.nvim_create_user_command('LuaSnipEdit', 'lua require("luasnip.loaders").edit_snippet_files()', {})
+
+          luasnip.config.set_config({
+            history = true,
+            ext_base_prio = 200,
+            ext_prio_increase = 1,
+            updateevents = 'TextChanged,TextChangedI',
+            enable_autosnippets = true,
+            store_selection_keys = '<C-q>',
+          })
+
+          -- luasnip.filetype_extend('all', { '_' })
+
+          -- Load Snippets
+          require('luasnip.loaders.from_vscode').lazy_load()
+          -- require('luasnip.loaders.from_vscode').lazy_load({ paths = snip_folder })
+          require('luasnip.loaders.from_snipmate').lazy_load({ paths = snip_folder })
+          -- require('luasnip.loaders.from_lua').lazy_load({ paths = snip_folder })
+        end
       },
     },
     config = function()
@@ -327,14 +324,10 @@ local plugins = {
   -- LSP
   {
     'neovim/nvim-lspconfig',
-    enabled = false,
+    enabled = true,
     event = {'BufReadPre', 'BufNewFile'}, cmd = {'LspInfo', 'LspStart', 'LspInstall', 'LspUninstall'},
     dependencies = {
-      {
-        'williamboman/mason.nvim',
-        build = ':MasonUpdate',
-        opts = {ui = {border = 'single'}, ensure_installed = {}},
-      },
+      {'williamboman/mason.nvim', build = ':MasonUpdate', opts = {ui = {border = 'single'}, ensure_installed = {}}},
       'williamboman/mason-lspconfig.nvim',
       {
         'jose-elias-alvarez/null-ls.nvim',
