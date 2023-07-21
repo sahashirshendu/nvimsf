@@ -161,8 +161,7 @@ local plugins = {
   -- Treesitter
   {
     'nvim-treesitter/nvim-treesitter', build = ':TSUpdate', event = {'BufRead', 'InsertEnter'},
-    dependencies = { 'windwp/nvim-ts-autotag', 'mrjones2014/nvim-ts-rainbow'},
-    config = function() require('nvim-treesitter.configs').setup {ensure_installed = {'bash', 'lua', 'python'}, highlight = {enable = true, disable = {''}}, autopairs = {enable = true}, rainbow = {enable = true}} end
+    config = function() require('nvim-treesitter.configs').setup {ensure_installed = {'bash', 'lua', 'python'}, highlight = {enable = true, disable = {''}}, autopairs = {enable = true}} end
   },
   {'windwp/nvim-autopairs', event = 'InsertEnter', opts = {}},
   -- NVimTree
@@ -225,7 +224,6 @@ local plugins = {
     'hrsh7th/nvim-cmp', event = 'InsertEnter',
     dependencies = {
       'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-nvim-lua',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-cmdline',
