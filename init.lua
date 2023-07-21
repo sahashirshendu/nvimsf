@@ -278,7 +278,7 @@ local plugins = {
           ['<C-Space>'] = cmp.mapping.complete(),
           ['<C-y>'] = cmp.config.disable,
           ['<C-e>'] = cmp.mapping.abort(),
-          ['<CR>'] = cmp.mapping.confirm {behavior = cmp.ConfirmBehavior.Replace, select = true},
+          ['<CR>'] = cmp.mapping.confirm {select = false},
           ['<Tab>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
@@ -302,7 +302,6 @@ local plugins = {
         },
         sources = {
           {name = 'nvim_lsp'},
-          {name = 'nvim_lua'},
           {name = 'luasnip'},
           {name = 'buffer'},
           {name = 'path'},
