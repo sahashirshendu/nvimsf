@@ -161,7 +161,7 @@ local plugins = {
   -- Treesitter
   {
     'nvim-treesitter/nvim-treesitter', build = ':TSUpdate', event = {'BufRead', 'InsertEnter'},
-    dependencies = { 'windwp/nvim-ts-autotag', 'p00f/nvim-ts-rainbow'},
+    dependencies = { 'windwp/nvim-ts-autotag', 'mrjones2014/nvim-ts-rainbow'},
     config = function() require('nvim-treesitter.configs').setup {ensure_installed = {'bash', 'lua', 'python'}, highlight = {enable = true, disable = {''}}, autopairs = {enable = true}, rainbow = {enable = true}} end
   },
   {'windwp/nvim-autopairs', event = 'InsertEnter', opts = {}},
