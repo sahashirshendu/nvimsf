@@ -238,6 +238,7 @@ local plugins = {
       {
         'L3MON4D3/LuaSnip',
         dependencies = { 'saadparwaiz1/cmp_luasnip', 'rafamadriz/friendly-snippets' },
+        build = 'make install_jsregexp',
         config = function()
           local snip_status_ok, luasnip = pcall(require, 'luasnip')
           if not snip_status_ok then
