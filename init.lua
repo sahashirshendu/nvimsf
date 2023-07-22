@@ -38,11 +38,19 @@ o.splitright = true
 o.splitbelow = true
 o.mouse = 'a'
 
+-- AUTOCOMMANDS
+api.nvim_create_autocmd('TextYankPost', {pattern = '*', command = 'lua vim.highlight.on_yank()'}) -- copy on yank
+api.nvim_create_autocmd({'FocusGained', 'TermClose', 'TermLeave'}, {command = 'checktime'}) -- reload changed file
+api.nvim_create_autocmd({'BufWinEnter', 'BufEnter'}, {command = 'set formatoptions-=cro'}) -- don't auto comment new line
+api.nvim_create_autocmd('TermOpen', {pattern = '*', command = 'startinsert'}) -- open terminal in insert mode
+api.nvim_create_autocmd('BufReadPost', {command = [[if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif]]}) -- restore cursor position
+api.nvim_create_autocmd('FileType', {pattern = {'checkhealth', 'help', 'lspinfo', 'man', 'qf', 'startuptime'}, command = 'nnoremap <buffer><silent> q :bdelete!<CR>'}) -- windows to close with "q"
+
+-- KEYBINDINGS
 -- Map <leader> to space
 g.mapleader = ' '
 g.maplocalleader = ' '
 
--- KEYBINDINGS
 -- Shell movements
 map('i', '<C-E>', '<ESC>A', {noremap = true, silent = true})
 map('i', '<C-A>', '<ESC>I', {noremap = true, silent = true})
