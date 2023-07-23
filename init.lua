@@ -158,14 +158,14 @@ local plugins = {
   {'sainnhe/everforest', config = function() vim.cmd('colorscheme everforest') end},
   -- Statusline
   {
-    'nvim-lualine/lualine.nvim', event = 'VeryLazy',
+    'nvim-lualine/lualine.nvim',
     dependencies = 'kyazdani42/nvim-web-devicons',
     opts = {
       options = {component_separators = '|', section_separators = {left = '', right = ''}},
       sections = {lualine_x = {'fileformat', 'encoding', 'filetype'}, lualine_y = {}, lualine_z = {{'location', separator = {left = '', right = ''}, left_padding = 2}}},
+      tabline = { lualine_a = {'buffers'}, lualine_b = {}, lualine_c = {}, lualine_x = {}, lualine_y = {}, lualine_z = {}},
     }
   },
-  {'akinsho/bufferline.nvim', event = 'BufEnter', opts = {options = {always_show_bufferline = false, show_buffer_close_icons = false, offsets = {{filetype = 'NvimTree', text = 'Files'}}}}},
   -- Treesitter
   {
     'nvim-treesitter/nvim-treesitter', build = ':TSUpdate', event = {'BufRead', 'InsertEnter'},
