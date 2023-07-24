@@ -180,7 +180,7 @@ local plugins = {
   {'terrortylor/nvim-comment', name = 'nvim_comment', event = {'BufRead', 'BufNewFile'}, opts = {comment_empty = false}},
   -- WhichKey
   {
-    'folke/which-key.nvim', keys = '<leader>',
+    'folke/which-key.nvim', keys = {{'<leader>', mode = {'n', 'v'}}},
     config = function()
       require('which-key').setup {plugins = {marks = false, registers = false, presets = {operators = false, motions = false, text_objects = false, windows = false, nav = false, z = false, g = false}}, window = {border = 'single', padding = {1, 1, 1, 1}}, layout = {align = 'center'}}
       require('which-key').register({
