@@ -37,6 +37,7 @@ o.history = 100
 o.splitright = true
 o.splitbelow = true
 o.mouse = 'a'
+o.ruler = false
 
 -- AUTOCOMMANDS
 api.nvim_create_autocmd('TextYankPost', {pattern = '*', command = 'lua vim.highlight.on_yank()'}) -- copy on yank
