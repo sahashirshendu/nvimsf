@@ -53,17 +53,29 @@ g.mapleader = ' '
 g.maplocalleader = ' '
 
 -- Shell movements
-map('i', '<C-E>', '<ESC>A', {noremap = true, silent = true})
-map('i', '<C-A>', '<ESC>I', {noremap = true, silent = true})
+map('i', '<C-E>', '<ESC>A')
+map('i', '<C-A>', '<ESC>I')
 -- Tab over buffers
-map('n', '<TAB>', ':bnext<CR>', {noremap = true, silent = true})
-map('n', '<S-TAB>', ':bprevious<CR>', {noremap = true, silent = true})
+map('n', '<TAB>', ':bnext<CR>')
+map('n', '<S-TAB>', ':bprevious<CR>')
 -- Stay in indent mode
-map('v', '<', '<gv', {noremap = true, silent = true})
-map('v', '>', '>gv', {noremap = true, silent = true})
+map('v', '<', '<gv')
+map('v', '>', '>gv')
 -- Ctrl+BS deletes previous word
-map('!', '<C-BS>', '<C-w>', {noremap = true, silent = true})
-map('!', '<C-h>', '<C-w>', {noremap = true, silent = true})
+map('!', '<C-BS>', '<C-w>')
+map('!', '<C-h>', '<C-w>')
+-- Others
+map('n', '<leader>q', ':q<CR>', {desc = 'Quit'})
+map('n', '<leader>w', ':w<CR>', {desc = 'Write'})
+map('n', '<leader>e', ':NvimTreeToggle<CR>', {desc = 'Files'})
+map('n', '<leader>f', ':Format<CR>', {desc = 'Format'})
+map('n', '<leader>E', ':e $MYVIMRC<CR>', {desc = 'Config'})
+map('n', '<leader>s', ':Lazy sync<CR>', {desc = 'Update Plugins'})
+map('n', '<leader>h', ':sp<CR>', {desc = 'Horizontal Split'})
+map('n', '<leader>v', ':vs<CR>', {desc = 'Vertical Split'})
+map('n', '<leader>n', ':enew <BAR> startinsert<CR>', {desc = 'New File'})
+map('n', '<leader>c', ':CommentToggle<CR>', {desc = 'Comment'})
+map('v', '<leader>c', ':CommentToggle<CR>', {desc = 'Comment'})
 
 -- LSP
 local function lsp_setup()
@@ -182,22 +194,7 @@ local plugins = {
   -- WhichKey
   {
     'folke/which-key.nvim', keys = {{'<leader>', mode = {'n', 'v'}}},
-    config = function()
-      require('which-key').setup {plugins = {marks = false, registers = false, presets = {operators = false, motions = false, text_objects = false, windows = false, nav = false, z = false, g = false}}, window = {border = 'single', padding = {1, 1, 1, 1}}, layout = {align = 'center'}}
-      require('which-key').register({
-        q = {':q<CR>', 'Quit'},
-        w = {':w<CR>', 'Write'},
-        e = {':NvimTreeToggle<CR>', 'Files'},
-        f = {':Format<CR>', 'Format'},
-        E = {':e $MYVIMRC<CR>', 'Config'},
-        c = {':CommentToggle<CR>', 'Comment'},
-        s = {':Lazy sync<CR>', 'Update Plugins'},
-        h = {':sp<CR>', 'Horizontal Split'},
-        v = {':vs<CR>', 'Vertical Split'},
-        n = {':enew <BAR> startinsert<CR>', 'New File'},
-      }, {prefix = '<leader>'})
-      require('which-key').register({c = {':CommentToggle<CR>', 'Comment'}}, {prefix = '<leader>', mode = 'v'})
-    end
+    opts = {plugins = {marks = false, registers = false, presets = {operators = false, motions = false, text_objects = false, windows = false, nav = false, z = false, g = false}}, window = {border = 'single', padding = {1, 1, 1, 1}}, layout = {align = 'center'}}
   },
   -- Dashboard
   {
