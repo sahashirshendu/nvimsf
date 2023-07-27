@@ -48,7 +48,7 @@ api.nvim_create_autocmd('BufReadPost', {command = [[if line("'\"") > 1 && line("
 api.nvim_create_autocmd('FileType', {pattern = {'checkhealth', 'help', 'lspinfo', 'man', 'qf', 'startuptime'}, command = 'nnoremap <buffer><silent> q :bdelete!<CR>'}) -- windows to close with "q"
 
 -- COMMANDS
-api.nvim_create_user_command('Format', 'lua vim.lsp.buf.format({async = true})', {}) -- Builtin Formatting of NVim LSP
+api.nvim_create_user_command('Format', 'lua vim.lsp.buf.format({async = true})', {}) -- builtin formatting of LSP
 
 -- KEYBINDINGS
 g.mapleader = ','
@@ -107,13 +107,11 @@ local function lsp_setup()
     local config = {
       float = {focusable = true, style = 'minimal', border = 'single'},
       diagnostic = {
-        -- virtual_text = false,
         signs = {active = signs},
         underline = true,
         update_in_insert = false,
         severity_sort = true,
         float = {focusable = true, style = 'minimal', border = 'single', source = 'always', header = '', prefix = ''},
-        -- virtual_lines = true,
       },
     }
 
