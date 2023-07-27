@@ -24,9 +24,9 @@ By default, the configuration has Language Server Protocol (LSP) set up, but not
 To enable LSP, change `enabled` to `true` in the LSP section of the Plugins function.
 
 #### Some Shortcuts used in this config:
-| Shortcut  | Function     |
-| --------- | ------------ |
-|`Space + w`| Write file   |
-|`Space + q`| Quit file    |
-|`Space + s`| Sync plugins |
-|`Space + c`| Comment      |
+|  Shortcut  | Function     |
+| ---------- | ------------ |
+|    `,w`    | Write file   |
+|    `,q`    | Quit file    |
+|    `,s`    | Sync plugins |
+|    `,c`    | Comment      |

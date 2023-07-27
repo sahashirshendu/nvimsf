@@ -47,10 +47,11 @@ api.nvim_create_autocmd('TermOpen', {pattern = '*', command = 'startinsert'}) --
 api.nvim_create_autocmd('BufReadPost', {command = [[if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif]]}) -- restore cursor position
 api.nvim_create_autocmd('FileType', {pattern = {'checkhealth', 'help', 'lspinfo', 'man', 'qf', 'startuptime'}, command = 'nnoremap <buffer><silent> q :bdelete!<CR>'}) -- windows to close with "q"
 
+-- COMMANDS
+api.nvim_create_user_command('Format', 'lua vim.lsp.buf.format({async = true})', {}) -- Builtin Formatting of NVim LSP
+
 -- KEYBINDINGS
--- Map <leader> to space
-g.mapleader = ' '
-g.maplocalleader = ' '
+g.mapleader = ','
 
 -- Shell movements
 map('i', '<C-E>', '<ESC>A')
@@ -338,7 +339,6 @@ local plugins = {
         config = function()
           local nls = require('null-ls')
           local nlsfmt = nls.builtins.formatting
-          api.nvim_create_user_command('Format', 'lua vim.lsp.buf.format({async = true})', {}) -- Builtin Formatting of NVim LSP
           nls.setup {border = 'single', debug = false, sources = {nlsfmt.fprettify, nlsfmt.black, nlsfmt.stylua}}
         end,
       },
