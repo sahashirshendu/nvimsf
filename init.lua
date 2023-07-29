@@ -118,18 +118,15 @@ local function lsp_setup()
     vim.diagnostic.config(config.diagnostic)
     vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, config.float)
     vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, config.float)
-    vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-      underline = true,
-      virtual_text = { spacing = 5, severity_limit = 'Warning', },
-      update_in_insert = true,
-    })
+    vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, config.float)
   end
 
   local function on_attach(client, bufnr)
-    -- Disable Formatting for tsserver, sumneko-lua
-    -- if client.name == 'tsserver' or client.name == 'lua_ls' then
-    --   client.server_capabilities.document_formatting = false
-    -- end
+    -- Disable Formatting for sumneko-lua
+    if client.name == 'lua_ls' then
+      client.server_capabilities.documentFormattingProvider = false
+      client.server_capabilities.documentRangeFormattingProvider = false
+    end
   end
 
   -- LSP setup --
@@ -145,9 +142,7 @@ local function lsp_setup()
   }
 
   local msls_status_ok, mason_lspconfig = pcall(require, 'mason-lspconfig')
-  if not msls_status_ok then
-    return
-  end
+  if not msls_status_ok then return end
 
   mason_lspconfig.setup({
     ensure_installed = vim.tbl_keys(servers),
@@ -237,11 +232,7 @@ local plugins = {
         dependencies = { 'saadparwaiz1/cmp_luasnip', 'rafamadriz/friendly-snippets' },
         build = 'make install_jsregexp',
         config = function()
-          local snip_status_ok, luasnip = pcall(require, 'luasnip')
-          if not snip_status_ok then
-            return
-          end
-
+          local luasnip = require('luasnip')
           local snip_folder = vim.fn.stdpath('config') .. '/snippets/'
           api.nvim_create_user_command('LuaSnipEdit', 'lua require("luasnip.loaders").edit_snippet_files()', {})
 
