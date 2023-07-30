@@ -47,9 +47,6 @@ api.nvim_create_autocmd('TermOpen', {pattern = '*', command = 'startinsert'}) --
 api.nvim_create_autocmd('BufReadPost', {command = [[if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif]]}) -- restore cursor position
 api.nvim_create_autocmd('FileType', {pattern = {'checkhealth', 'help', 'lspinfo', 'man', 'qf', 'startuptime'}, command = 'nnoremap <buffer><silent> q :bdelete!<CR>'}) -- windows to close with "q"
 
--- COMMANDS
-api.nvim_create_user_command('Format', 'lua vim.lsp.buf.format({async = true})', {}) -- builtin formatting of LSP
-
 -- KEYBINDINGS
 g.mapleader = ','
 
@@ -68,15 +65,12 @@ map('!', '<C-h>', '<C-w>')
 -- Others
 map('n', '<leader>q', ':q<CR>', {desc = 'Quit'})
 map('n', '<leader>w', ':w<CR>', {desc = 'Write'})
-map('n', '<leader>e', ':NvimTreeToggle<CR>', {desc = 'Files'})
-map('n', '<leader>f', ':Format<CR>', {desc = 'Format'})
 map('n', '<leader>E', ':e $MYVIMRC<CR>', {desc = 'Config'})
+map('n', '<leader>e', ':NvimTreeToggle<CR>', {desc = 'Files'})
 map('n', '<leader>s', ':Lazy sync<CR>', {desc = 'Update Plugins'})
-map('n', '<leader>h', ':sp<CR>', {desc = 'Horizontal Split'})
-map('n', '<leader>v', ':vs<CR>', {desc = 'Vertical Split'})
-map('n', '<leader>n', ':enew <BAR> startinsert<CR>', {desc = 'New File'})
 map('n', '<leader>c', ':CommentToggle<CR>', {desc = 'Comment'})
 map('v', '<leader>c', ':CommentToggle<CR>', {desc = 'Comment'})
+map('n', '<leader>n', ':enew <BAR> startinsert<CR>', {desc = 'New File'})
 
 -- LSP
 local function lsp_setup()
@@ -122,6 +116,15 @@ local function lsp_setup()
   end
 
   local function on_attach(client, bufnr)
+    -- LSP Keymaps
+    map('n', 'gd', vim.lsp.buf.definition, {desc = 'Goto Definition'})
+    map('n', 'gr', vim.lsp.buf.references, {desc = 'References'})
+    map('n', 'K', vim.lsp.buf.hover, {desc = 'Hover'})
+    map('n', '<leader>f', vim.lsp.buf.format, {desc = 'Format'})
+    map('v', '<leader>f', vim.lsp.buf.format, {desc = 'Format'})
+    map('n', '<leader>lr', vim.lsp.buf.rename, {desc = 'Rename'})
+    map('n', '<leader>li', ':LspInfo<CR>', {desc = 'Connected Servers'})
+
     -- Disable Formatting for sumneko-lua
     if client.name == 'lua_ls' then
       client.server_capabilities.documentFormattingProvider = false
@@ -187,7 +190,7 @@ local plugins = {
   {'terrortylor/nvim-comment', name = 'nvim_comment', event = {'BufRead', 'BufNewFile'}, opts = {comment_empty = false}},
   -- WhichKey
   {
-    'folke/which-key.nvim', keys = {{'<leader>', mode = {'n', 'v'}}},
+    'folke/which-key.nvim',
     opts = {plugins = {marks = false, registers = false, presets = {operators = false, motions = false, text_objects = false, windows = false, nav = false, z = false, g = false}}, window = {border = 'single', padding = {1, 1, 1, 1}}, layout = {align = 'center'}}
   },
   -- Dashboard
