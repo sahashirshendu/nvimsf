@@ -4,13 +4,13 @@ local o = vim.opt
 local api = vim.api
 local map = vim.keymap.set
 
+o.number = true -- Line Number
+o.relativenumber = false -- Relative line number
 o.termguicolors = true
 -- o.background = 'dark'
 -- o.hidden = true
 o.timeoutlen = 200
 o.updatetime = 200
-o.number = true -- Line Number
-o.relativenumber = false -- Relative line number
 o.signcolumn = 'yes'
 o.cursorline = true
 o.expandtab = true
@@ -89,7 +89,7 @@ local function lsp_setup()
     },
   }
 
-  local function lsp_handlers()
+  local function lsp_init()
     -- Diagnostic Signs
     local signs = {Error = ' ', Warn = ' ', Hint = ' ', Info = ' '}
     for type, icon in pairs(signs) do
@@ -136,7 +136,7 @@ local function lsp_setup()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-  lsp_handlers()
+  lsp_init()
 
   local opts = {
     on_attach = on_attach,
@@ -200,17 +200,7 @@ local plugins = {
       require('dashboard').setup {
         theme = 'doom',
         config = {
-          header = {
-            [[]],
-            [[]],
-            [[ ██╗   ██╗ ]],
-            [[ ██║   ██║ ]],
-            [[ ╚██╗ ██╔╝ ]],
-            [[  ╚████╔╝  ]],
-            [[   ╚═══╝   ]],
-            [[]],
-            [[]],
-          },
+          header = { "", "", "NEOVIM", "", "" },
           center = {
             { icon = '󰈔  ', desc = 'New File                                ', action = 'enew | startinsert', key = ' SPC n ' },
             { icon = '  ', desc = 'Config                                  ', action = 'e $MYVIMRC', key = ' SPC E ' },
@@ -280,23 +270,16 @@ local plugins = {
           ['<C-e>'] = cmp.mapping.abort(),
           ['<CR>'] = cmp.mapping.confirm {select = false},
           ['<Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_next_item()
-            elseif luasnip.expand_or_jumpable() then
-              luasnip.expand_or_jump()
-            elseif has_words_before() then
-              cmp.complete()
-            else
-              fallback()
+            if cmp.visible() then cmp.select_next_item()
+            elseif luasnip.expand_or_jumpable() then luasnip.expand_or_jump()
+            elseif has_words_before() then cmp.complete()
+            else fallback()
             end
           end, {'i', 's'}),
           ['<S-Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_prev_item()
-            elseif luasnip.jumpable(-1) then
-              luasnip.jump(-1)
-            else
-              fallback()
+            if cmp.visible() then cmp.select_prev_item()
+            elseif luasnip.jumpable(-1) then luasnip.jump(-1)
+            else fallback()
             end
           end, {'i', 's'}),
         },
@@ -335,7 +318,7 @@ local plugins = {
         end,
       },
     },
-    config = function() lsp_setup() end
+    config = lsp_setup,
   },
 }
 
