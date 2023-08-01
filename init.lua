@@ -9,8 +9,8 @@ o.relativenumber = false -- Relative line number
 o.termguicolors = true
 -- o.background = 'dark'
 -- o.hidden = true
-o.timeoutlen = 200
-o.updatetime = 200
+o.timeoutlen = 500
+o.updatetime = 500
 o.signcolumn = 'yes'
 o.cursorline = true
 o.expandtab = true
@@ -189,10 +189,7 @@ local plugins = {
   -- Comment
   {'terrortylor/nvim-comment', name = 'nvim_comment', event = {'BufRead', 'BufNewFile'}, opts = {comment_empty = false}},
   -- WhichKey
-  {
-    'folke/which-key.nvim',
-    opts = {plugins = {marks = false, registers = false, presets = {operators = false, motions = false, text_objects = false, windows = false, nav = false, z = false, g = false}}, window = {border = 'single', padding = {1, 1, 1, 1}}, layout = {align = 'center'}}
-  },
+  {'folke/which-key.nvim', opts = {window = {border = 'single'}}},
   -- Dashboard
   {
     'nvimdev/dashboard-nvim', event = 'VimEnter',
