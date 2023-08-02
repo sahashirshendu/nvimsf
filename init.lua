@@ -189,7 +189,7 @@ local plugins = {
   -- Comment
   {'terrortylor/nvim-comment', name = 'nvim_comment', event = {'BufRead', 'BufNewFile'}, opts = {comment_empty = false}},
   -- Key
-  { 'linty-org/key-menu.nvim', config = function() require('key-menu').set({'n', 'v'}, '<leader>') end },
+  { 'linty-org/key-menu.nvim', keys = '<leader>', config = function() require('key-menu').set({'n', 'v'}, '<leader>') end },
   -- Dashboard
   {
     'nvimdev/dashboard-nvim',
