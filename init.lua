@@ -65,11 +65,11 @@ map('!', '<C-h>', '<C-w>')
 -- Others
 map('n', '<leader>q', ':q<CR>', {desc = 'Quit'})
 map('n', '<leader>w', ':w<CR>', {desc = 'Write'})
-map('n', '<leader>E', ':e $MYVIMRC<CR>', {desc = 'Config'})
+map('n', '<leader>c', ':e $MYVIMRC<CR>', {desc = 'Config'})
 map('n', '<leader>e', ':NvimTreeToggle<CR>', {desc = 'Files'})
 map('n', '<leader>s', ':Lazy sync<CR>', {desc = 'Update Plugins'})
-map('n', '<leader>c', ':CommentToggle<CR>', {desc = 'Comment'})
-map('v', '<leader>c', ':CommentToggle<CR>', {desc = 'Comment'})
+map('n', '<leader>k', ':CommentToggle<CR>', {desc = 'Comment'})
+map('v', '<leader>k', ':CommentToggle<CR>', {desc = 'Comment'})
 map('n', '<leader>n', ':enew <BAR> startinsert<CR>', {desc = 'New File'})
 
 -- LSP
@@ -199,10 +199,10 @@ local plugins = {
         config = {
           header = { "", "", "NEOVIM", "", "" },
           center = {
-            { desc = 'New File                           ', action = 'enew | startinsert', key = ',n' },
-            { desc = 'Config                             ', action = 'e $MYVIMRC', key = ',E' },
-            { desc = 'Sync                               ', action = 'Lazy sync', key = ',s' },
-            { desc = 'Quit                               ', action = 'qa', key = ',q' }
+            { desc = 'New File                      ', action = 'enew | startinsert', key = ',n' },
+            { desc = 'Config                        ', action = 'e $MYVIMRC', key = ',c' },
+            { desc = 'Sync                          ', action = 'Lazy sync', key = ',s' },
+            { desc = 'Quit                          ', action = 'qa', key = ',q' }
           },
           footer = { #vim.tbl_keys(require('lazy').plugins()) .. ' plugins' }
         }
