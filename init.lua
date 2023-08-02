@@ -188,8 +188,8 @@ local plugins = {
   {'lewis6991/gitsigns.nvim', event = {'BufRead', 'BufNewFile'}, dependencies = 'nvim-lua/plenary.nvim', opts = {}},
   -- Comment
   {'terrortylor/nvim-comment', name = 'nvim_comment', event = {'BufRead', 'BufNewFile'}, opts = {comment_empty = false}},
-  -- WhichKey
-  {'folke/which-key.nvim', opts = {window = {border = 'single'}}},
+  -- Key
+  { 'linty-org/key-menu.nvim', config = function() require('key-menu').set({'n', 'v'}, '<leader>') end },
   -- Dashboard
   {
     'nvimdev/dashboard-nvim', event = 'VimEnter',
