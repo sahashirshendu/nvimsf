@@ -29,4 +29,4 @@ To enable LSP, change `enabled` to `true` in the LSP section of the Plugins func
 |    `,w`    | Write file   |
 |    `,q`    | Quit file    |
 |    `,s`    | Sync plugins |
-|    `,c`    | Comment      |
+|    `,k`    | Comment      |
