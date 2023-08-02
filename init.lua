@@ -192,19 +192,19 @@ local plugins = {
   { 'linty-org/key-menu.nvim', config = function() require('key-menu').set({'n', 'v'}, '<leader>') end },
   -- Dashboard
   {
-    'nvimdev/dashboard-nvim', event = 'VimEnter',
+    'nvimdev/dashboard-nvim',
     config = function()
       require('dashboard').setup {
         theme = 'doom',
         config = {
           header = { "", "", "NEOVIM", "", "" },
           center = {
-            { icon = '󰈔  ', desc = 'New File                                ', action = 'enew | startinsert', key = ' SPC n ' },
-            { icon = '󰒓  ', desc = 'Config                                  ', action = 'e $MYVIMRC', key = ' SPC E ' },
-            { icon = '󰑓  ', desc = 'Sync                                    ', action = 'Lazy sync', key = ' SPC s ' },
-            { icon = '󰅚  ', desc = 'Quit                                    ', action = 'qa', key = ' SPC q ' }
+            { desc = 'New File                           ', action = 'enew | startinsert', key = ',n' },
+            { desc = 'Config                             ', action = 'e $MYVIMRC', key = ',E' },
+            { desc = 'Sync                               ', action = 'Lazy sync', key = ',s' },
+            { desc = 'Quit                               ', action = 'qa', key = ',q' }
           },
-          footer = { '  ' .. #vim.tbl_keys(require('lazy').plugins()) .. ' plugins' }
+          footer = { #vim.tbl_keys(require('lazy').plugins()) .. ' plugins' }
         }
       }
     end
