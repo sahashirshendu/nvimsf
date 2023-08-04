@@ -165,7 +165,7 @@ end
 -- PLUGINS
 local plugins = {
   -- Colorschemes
-  {'sainnhe/everforest', config = function() vim.cmd('colorscheme everforest') end},
+  {'Shatur/neovim-ayu', config = function() vim.cmd('colorscheme ayu') end},
   -- Statusline
   {
     'nvim-lualine/lualine.nvim',
