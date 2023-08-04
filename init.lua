@@ -170,6 +170,7 @@ local plugins = {
   {
     'nvim-lualine/lualine.nvim',
     dependencies = 'kyazdani42/nvim-web-devicons',
+    event = { "BufRead", "BufNewFile" },
     opts = {
       options = {component_separators = '|', section_separators = {left = '', right = ''}},
       sections = {lualine_x = {'fileformat', 'encoding', 'filetype'}, lualine_y = {}, lualine_z = {{'location', separator = {left = '', right = ''}, left_padding = 2}}},
