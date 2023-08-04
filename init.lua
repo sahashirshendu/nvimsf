@@ -192,7 +192,7 @@ local plugins = {
       require('dashboard').setup {
         theme = 'doom',
         config = {
-          header = { "", "", "NEOVIM", "", "" },
+          header = { "", "", "󱇧  NEOVIM", "", "" },
           center = {
             { desc = 'New File                      ', action = 'enew | startinsert', key = ',n' },
             { desc = 'Config                        ', action = 'e $MYVIMRC', key = ',c' },
