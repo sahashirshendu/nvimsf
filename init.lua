@@ -214,7 +214,7 @@ local plugins = {
       'hrsh7th/cmp-cmdline',
       {
         'L3MON4D3/LuaSnip',
-        dependencies = { 'saadparwaiz1/cmp_luasnip', 'rafamadriz/friendly-snippets' },
+        dependencies = { 'saadparwaiz1/cmp_luasnip' },
         build = 'make install_jsregexp',
         config = function()
           local luasnip = require('luasnip')
@@ -225,17 +225,14 @@ local plugins = {
             history = true,
             ext_base_prio = 200,
             ext_prio_increase = 1,
-            updateevents = 'TextChanged,TextChangedI',
             enable_autosnippets = true,
+            updateevents = 'TextChanged,TextChangedI',
             store_selection_keys = '<C-q>',
           })
 
-          -- luasnip.filetype_extend('all', { '_' })
-
           -- Load Snippets
-          require('luasnip.loaders.from_vscode').lazy_load()
-          -- require('luasnip.loaders.from_vscode').lazy_load({ paths = snip_folder })
           require('luasnip.loaders.from_snipmate').lazy_load({ paths = snip_folder })
+          -- require('luasnip.loaders.from_vscode').lazy_load({ paths = snip_folder })
           -- require('luasnip.loaders.from_lua').lazy_load({ paths = snip_folder })
         end
       },
