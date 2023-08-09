@@ -71,16 +71,8 @@ local function lsp_setup()
   -- LSP servers --
   local servers = {
     fortls = {},
+    lua_ls = {},
     pyright = {analysis = {typeCheckingMode = 'off'}},
-    lua_ls = {
-      settings = {
-        Lua = {
-          runtime = {version = 'LuaJIT'},
-          workspace = {library = api.nvim_get_runtime_file('', true), checkThirdParty = false},
-          telemetry = {enable = false},
-        },
-      },
-    },
   }
 
   local function lsp_init()
