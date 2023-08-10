@@ -72,7 +72,7 @@ local function lsp_setup()
   local servers = {
     fortls = {},
     lua_ls = {},
-    pyright = {analysis = {typeCheckingMode = 'off'}},
+    pyright = {},
   }
 
   local function lsp_init()
