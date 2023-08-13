@@ -57,14 +57,13 @@ map('v', '>', '>gv')
 map('!', '<C-BS>', '<C-w>')
 map('!', '<C-h>', '<C-w>')
 -- Others
-map('n', '<leader>q', ':q<CR>', {desc = 'Quit'})
-map('n', '<leader>w', ':w<CR>', {desc = 'Write'})
 map('n', '<leader>c', ':e $MYVIMRC<CR>', {desc = 'Config'})
 map('n', '<leader>e', ':NvimTreeToggle<CR>', {desc = 'Files'})
 map('n', '<leader>s', ':Lazy sync<CR>', {desc = 'Update Plugins'})
-map('n', '<leader>k', ':CommentToggle<CR>', {desc = 'Comment'})
-map('v', '<leader>k', ':CommentToggle<CR>', {desc = 'Comment'})
 map('n', '<leader>n', ':enew <BAR> startinsert<CR>', {desc = 'New File'})
+map({'n', 'v'}, '<leader>k', ':CommentToggle<CR>', {desc = 'Comment'})
+map({'i','n','v'}, '<C-s>', '<ESC>:w<CR><ESC>')
+map({'i','n','v'}, '<C-q>', '<ESC>:q!<CR>')
 
 -- LSP
 local function lsp_setup()
