@@ -151,7 +151,7 @@ end
 -- PLUGINS
 local plugins = {
   -- Colorschemes
-  {'Shatur/neovim-ayu', config = function() vim.cmd('colorscheme ayu') end},
+  {'tanvirtin/monokai.nvim', config = function() vim.cmd('colorscheme monokai') end},
   -- Statusline
   {
     'nvim-lualine/lualine.nvim',
