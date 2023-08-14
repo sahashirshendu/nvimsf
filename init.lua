@@ -63,6 +63,7 @@ map('n', '<leader>s', ':Lazy sync<CR>', {desc = 'Update Plugins'})
 map('n', '<leader>n', ':enew <BAR> startinsert<CR>', {desc = 'New File'})
 map({'n', 'v'}, '<leader>k', ':CommentToggle<CR>', {desc = 'Comment'})
 map({'i','n','v'}, '<C-s>', '<ESC>:w<CR><ESC>')
+map({'i','n','v'}, '<C-w>', '<ESC>:bd<CR><ESC>')
 map({'i','n','v'}, '<C-q>', '<ESC>:q!<CR>')
 
 -- LSP
