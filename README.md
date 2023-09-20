@@ -13,6 +13,11 @@ For installing the config,
 ```bash
 git clone https://gitlab.com/shirshendusaha/nvimsf.git ~/.config.nvim
 ```
+or
+```bash
+git clone https://github.com/sahashirshendu/nvimsf.git ~/.config.nvim
+```
+or just download and extract the `.zip` of this repository to `~/.config/nvim`
 
 ## Usage
 Run neovim with `neovim`.
