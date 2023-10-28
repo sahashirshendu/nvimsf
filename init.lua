@@ -291,7 +291,7 @@ local plugins = {
       {'williamboman/mason.nvim', build = ':MasonUpdate', opts = {ui = {border = 'single'}, ensure_installed = {}}},
       'williamboman/mason-lspconfig.nvim',
       {
-        'jose-elias-alvarez/null-ls.nvim',
+        'nvimtools/none-ls.nvim',
         config = function()
           local nls = require('null-ls')
           local nlsfmt = nls.builtins.formatting

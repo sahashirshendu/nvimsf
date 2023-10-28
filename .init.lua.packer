@@ -129,7 +129,7 @@ local function plugins(use)
   -- LSP
   -- use {
   --   "neovim/nvim-lspconfig",
-  --   requires = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "jose-elias-alvarez/null-ls.nvim" },
+  --   requires = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "nvimtools/none-ls.nvim" },
   --   config = lsp_setup()
   -- }
 
