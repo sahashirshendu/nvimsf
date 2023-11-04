@@ -186,6 +186,7 @@ local plugins = {
         { mode = 'x', keys = '<Leader>' },
       },
     },
+  },
   -- Dashboard
   {
     'nvimdev/dashboard-nvim',
