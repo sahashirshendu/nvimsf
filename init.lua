@@ -176,8 +176,7 @@ local plugins = {
   -- Comment
   {'terrortylor/nvim-comment', name = 'nvim_comment', event = {'BufRead', 'BufNewFile'}, opts = {comment_empty = false}},
   -- Key
-  { 'echasnovski/mini.clue', keys = '<leader>', opts = {triggers = {{mode = 'n', keys = '<Leader>'}, {mode = 'x', keys = '<Leader>'}}},
-  },
+  {'echasnovski/mini.clue', keys = '<leader>', opts = {triggers = {{mode = 'n', keys = '<Leader>'}, {mode = 'x', keys = '<Leader>'}}}},
   -- Dashboard
   {
     'nvimdev/dashboard-nvim',
