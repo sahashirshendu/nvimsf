@@ -34,7 +34,7 @@ o.mouse = 'a'
 o.ru = false
 
 -- AUTOCOMMANDS
-api.nvim_create_autocmd('TextYankPost', {pattern = '*', command = 'lua vim.highlight.on_yank()'}) -- copy on yank
+api.nvim_create_autocmd('TextYankPost', {pattern = '*', command = 'lua vim.highlight.on_yank()'}) -- highlight on yank
 api.nvim_create_autocmd({'FocusGained', 'TermClose', 'TermLeave'}, {command = 'checktime'}) -- reload changed file
 api.nvim_create_autocmd({'BufWinEnter', 'BufEnter'}, {command = 'set formatoptions-=cro'}) -- don't auto comment new line
 api.nvim_create_autocmd('TermOpen', {pattern = '*', command = 'startinsert'}) -- open terminal in insert mode
