@@ -95,6 +95,7 @@ local function lsp_setup()
     map('n', 'K', vim.lsp.buf.hover, {desc = 'Hover'})
     map('n', '<leader>f', vim.lsp.buf.format, {desc = 'Format'})
     map('v', '<leader>f', vim.lsp.buf.format, {desc = 'Format'})
+    map('v', '<leader>la', vim.lsp.buf.code_action, {desc = 'Action'})
     map('n', '<leader>lr', vim.lsp.buf.rename, {desc = 'Rename'})
     map('n', '<leader>li', ':LspInfo<CR>', {desc = 'Connected Servers'})
 
