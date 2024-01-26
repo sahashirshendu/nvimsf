@@ -68,16 +68,9 @@ map({'i','n','v'}, '<C-q>', '<ESC>:q!<CR>')
 
 -- LSP
 local function lsp_setup()
-  -- LSP servers --
-  local servers = {
-    fortls = {},
-    lua_ls = {},
-    pyright = {},
-  }
-
   local function lsp_init()
     -- Diagnostic Signs
-    local signs = {Error = ' ', Warn = ' ', Hint = '󰌬 ', Info = ' '}
+    local signs = {Error = '', Warn = '', Hint = '󰌬', Info = ''}
     for type, icon in pairs(signs) do
       local hl = 'DiagnosticSign' .. type
       vim.fn.sign_define(hl, {text = icon, texthl = hl, numhl = ''})
@@ -85,14 +78,8 @@ local function lsp_setup()
 
     -- LSP handlers configuration
     local config = {
-      float = {focusable = true, style = 'minimal', border = 'single'},
-      diagnostic = {
-        signs = {active = signs},
-        underline = true,
-        update_in_insert = false,
-        severity_sort = true,
-        float = {focusable = true, style = 'minimal', border = 'single', source = 'always', header = '', prefix = ''},
-      },
+      float = { focusable = true, style = "minimal", border = "rounded" },
+      diagnostic = { signs = { active = signs }, severity_sort = true },
     }
 
     vim.diagnostic.config(config.diagnostic)
@@ -119,33 +106,19 @@ local function lsp_setup()
   end
 
   -- LSP setup --
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities.textDocument.completion.completionItem.snippetSupport = true
-
   lsp_init()
 
-  local opts = {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    flags = { debounce_text_changes = 150 },
-  }
+  local capabilities = require("cmp_nvim_lsp").default_capabilities()
+  require('mason-lspconfig').setup({automatic_installation = true})
 
-  local msls_status_ok, mason_lspconfig = pcall(require, 'mason-lspconfig')
-  if not msls_status_ok then return end
-
-  mason_lspconfig.setup({
-    ensure_installed = vim.tbl_keys(servers),
-    automatic_installation = false,
-  })
-
-  -- Set up LSP servers
+  -- Set up servers
   local lspconfig = require('lspconfig')
   local lspwin = require('lspconfig.ui.windows')
   lspwin.default_options.border = 'single'
-  for server_name, _ in pairs(servers) do
-    local options = vim.tbl_deep_extend('force', opts, servers[server_name] or {})
-    lspconfig[server_name].setup(options)
-  end
+
+  lspconfig.pyright.setup {on_attach = on_attach, capabilities = capabilities}
+  lspconfig.fortls.setup {on_attach = on_attach, capabilities = capabilities}
+  lspconfig.lua_ls.setup {on_attach = on_attach, capabilities = capabilities}
 end
 
 -- PLUGINS
