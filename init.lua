@@ -95,7 +95,7 @@ local function lsp_setup()
     map('n', 'K', vim.lsp.buf.hover, {desc = 'Hover'})
     map('n', '<leader>f', vim.lsp.buf.format, {desc = 'Format'})
     map('v', '<leader>f', vim.lsp.buf.format, {desc = 'Format'})
-    map('v', '<leader>la', vim.lsp.buf.code_action, {desc = 'Action'})
+    map('n', '<leader>la', vim.lsp.buf.code_action, {desc = 'Action'})
     map('n', '<leader>lr', vim.lsp.buf.rename, {desc = 'Rename'})
     map('n', '<leader>li', ':LspInfo<CR>', {desc = 'Connected Servers'})
 
@@ -180,7 +180,7 @@ local plugins = {
       'hrsh7th/cmp-cmdline',
       {
         'L3MON4D3/LuaSnip',
-        dependencies = { 'saadparwaiz1/cmp_luasnip' },
+        dependencies = {'saadparwaiz1/cmp_luasnip'},
         build = 'make install_jsregexp',
         config = function()
           local luasnip = require('luasnip')
@@ -211,7 +211,7 @@ local plugins = {
         return col ~= 0 and api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
       end
       cmp.setup({
-        completion = {completeopt = 'menu,menuone,noselect,noinsert', keyword_length = 1},
+        completion = {completeopt = 'menu,menuone,noselect,noinsert'},
         snippet = {
           expand = function(args)
             luasnip.lsp_expand(args.body)
@@ -221,8 +221,6 @@ local plugins = {
           ['<C-b>'] = cmp.mapping.scroll_docs(-4),
           ['<C-f>'] = cmp.mapping.scroll_docs(4),
           ['<C-Space>'] = cmp.mapping.complete(),
-          ['<C-y>'] = cmp.config.disable,
-          ['<C-e>'] = cmp.mapping.abort(),
           ['<CR>'] = cmp.mapping.confirm {select = false},
           ['<Tab>'] = cmp.mapping(function(fallback)
             if cmp.visible() then cmp.select_next_item()
@@ -244,7 +242,6 @@ local plugins = {
           {name = 'buffer'},
           {name = 'path'},
         },
-        window = {documentation = {border = 'single'}},
       })
       cmp.setup.cmdline('/', {
         mapping = cmp.mapping.preset.cmdline(),
