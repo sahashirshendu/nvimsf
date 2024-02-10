@@ -1,5 +1,4 @@
 # NeoVim Configuration
-
 ## Installation
 Install `neovim` with:
 ```bash
