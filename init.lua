@@ -1,5 +1,4 @@
 -- OPTIONS
-local g = vim.g
 local o = vim.opt
 local api = vim.api
 local map = vim.keymap.set
@@ -42,7 +41,7 @@ api.nvim_create_autocmd('BufReadPost', {command = [[if line("'\"") > 1 && line("
 api.nvim_create_autocmd('FileType', {pattern = {'checkhealth', 'help', 'lspinfo', 'man', 'qf', 'startuptime'}, command = 'nnoremap <buffer><silent> q :q!<CR>'}) -- windows to close with "q"
 
 -- KEYBINDINGS
-g.mapleader = ','
+vim.g.mapleader = ','
 
 -- Shell movements
 map('i', '<C-E>', '<ESC>A')
