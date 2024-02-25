@@ -75,16 +75,9 @@ local function lsp_setup()
       vim.fn.sign_define(hl, {text = icon, texthl = hl, numhl = ''})
     end
 
-    -- LSP handlers configuration
-    local config = {
-      float = { border = 'single' },
-      diagnostic = { signs = { active = signs }, severity_sort = true, float = { border = 'single' } },
-    }
-
-    vim.diagnostic.config(config.diagnostic)
-    vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, config.float)
-    vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, config.float)
-    vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, config.float)
+    vim.diagnostic.config({signs = {active = signs}, severity_sort = true, float = {border = 'single'}})
+    vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {border = 'single'})
+    vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {border = 'single'})
   end
 
   local function on_attach(client, bufnr)
