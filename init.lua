@@ -38,7 +38,7 @@ api.nvim_create_autocmd({'FocusGained', 'TermClose', 'TermLeave'}, {command = 'c
 api.nvim_create_autocmd({'BufWinEnter', 'BufEnter'}, {command = 'set formatoptions-=cro'}) -- don't auto comment new line
 api.nvim_create_autocmd('TermOpen', {pattern = '*', command = 'startinsert'}) -- open terminal in insert mode
 api.nvim_create_autocmd('BufReadPost', {command = [[if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif]]}) -- restore cursor position
-api.nvim_create_autocmd('FileType', {pattern = {'checkhealth', 'help', 'lspinfo', 'man', 'qf', 'startuptime'}, command = 'nnoremap <buffer><silent> q :q!<CR>'}) -- windows to close with "q"
+api.nvim_create_autocmd('FileType', {pattern = {'checkhealth', 'help', 'lspinfo', 'man', 'qf', 'startuptime'}, command = 'nnoremap <buffer><silent> q :q!<CR>'}) -- windows to close with 'q'
 
 -- KEYBINDINGS
 vim.g.mapleader = ','
@@ -77,8 +77,8 @@ local function lsp_setup()
 
     -- LSP handlers configuration
     local config = {
-      float = { focusable = true, style = "minimal", border = "rounded" },
-      diagnostic = { signs = { active = signs }, severity_sort = true },
+      float = { border = 'single' },
+      diagnostic = { signs = { active = signs }, severity_sort = true, float = { border = 'single' } },
     }
 
     vim.diagnostic.config(config.diagnostic)
@@ -108,7 +108,7 @@ local function lsp_setup()
   -- LSP setup --
   lsp_init()
 
-  local capabilities = require("cmp_nvim_lsp").default_capabilities()
+  local capabilities = require('cmp_nvim_lsp').default_capabilities()
   require('mason-lspconfig').setup({automatic_installation = true})
 
   -- Set up servers
@@ -129,7 +129,7 @@ local plugins = {
   {
     'nvim-lualine/lualine.nvim',
     dependencies = 'kyazdani42/nvim-web-devicons',
-    event = { "BufRead", "BufNewFile" },
+    event = { 'BufRead', 'BufNewFile' },
     opts = {
       options = {component_separators = '|', section_separators = {left = '', right = ''}},
       sections = {lualine_x = {'fileformat', 'encoding', 'filetype'}, lualine_y = {}, lualine_z = {{'location', separator = {left = '', right = ''}, left_padding = 2}}},
@@ -157,7 +157,7 @@ local plugins = {
       require('dashboard').setup {
         theme = 'doom',
         config = {
-          header = { "", "", "󱇧  NEOVIM", "", "" },
+          header = { '', '', '󱇧  NEOVIM', '', '' },
           center = {
             { desc = 'New File                      ', action = 'enew | startinsert', key = ',n' },
             { desc = 'Config                        ', action = 'e $MYVIMRC', key = ',c' },
@@ -189,7 +189,7 @@ local plugins = {
           luasnip.config.set_config({
             history = true,
             enable_autosnippets = true,
-            update_events = "TextChanged,TextChangedI",
+            update_events = 'TextChanged,TextChangedI',
             store_selection_keys = '<C-q>',
           })
 
