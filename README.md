@@ -26,7 +26,7 @@ Just for info, to quit `neovim` enter `ZZ` or `:q`.
 On first run, to sync the plugins, enter `:Lazy sync`.
 
 By default, the configuration has Language Server Protocol (LSP) set up, but not enabled.
-To enable LSP, change `enabled` to `true` in the LSP section of the Plugins function.
+To enable LSP, change `lsp` to `true` at the beginning of `init.lua`.
 
 #### Some Shortcuts used in this config:
 |  Shortcut  | Function     |

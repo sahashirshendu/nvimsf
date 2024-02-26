@@ -1,3 +1,6 @@
+-- LSP
+local lsp = false
+
 -- OPTIONS
 local o = vim.opt
 local api = vim.api
@@ -229,7 +232,7 @@ local plugins = {
   -- LSP
   {
     'neovim/nvim-lspconfig',
-    enabled = false,
+    enabled = lsp,
     event = {'BufReadPre', 'BufNewFile'},
     dependencies = {
       {'williamboman/mason.nvim', build = ':MasonUpdate', opts = {ui = {border = 'single'}, ensure_installed = {}}},
