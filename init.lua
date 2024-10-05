@@ -78,9 +78,9 @@ local function lsp_setup()
       vim.fn.sign_define(hl, {text = icon, texthl = hl, numhl = ''})
     end
 
-    vim.diagnostic.config({signs = {active = signs}, severity_sort = true, float = {border = 'single'}})
-    vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {border = 'single'})
-    vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {border = 'single'})
+    vim.diagnostic.config({signs = {active = signs}, severity_sort = true, float = {}})
+    vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {})
+    vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {})
   end
 
   local function on_attach(client, bufnr)
@@ -234,14 +234,14 @@ local plugins = {
     enabled = lsp,
     event = {'BufReadPre', 'BufNewFile'},
     dependencies = {
-      {'williamboman/mason.nvim', build = ':MasonUpdate', opts = {ui = {border = 'single'}, ensure_installed = {}}},
+      {'williamboman/mason.nvim', build = ':MasonUpdate', opts = {ensure_installed = {}}},
       'williamboman/mason-lspconfig.nvim', 'hrsh7th/nvim-cmp','hrsh7th/cmp-nvim-lsp',
       {
         'nvimtools/none-ls.nvim',
         config = function()
           local nls = require('null-ls')
           local nlsfmt = nls.builtins.formatting
-          nls.setup {border = 'single', debug = false, sources = {nlsfmt.fprettify, nlsfmt.black, nlsfmt.stylua}}
+          nls.setup {sources = {nlsfmt.fprettify, nlsfmt.black, nlsfmt.stylua}}
         end,
       },
     },
@@ -254,5 +254,4 @@ if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({'git', 'clone', '--filter=blob:none', 'https://github.com/folke/lazy.nvim.git', '--branch=stable', lazypath})
 end
 o.rtp:prepend(lazypath)
-
-require('lazy').setup(plugins, {ui = {border = 'single'}})
+require('lazy').setup(plugins)
