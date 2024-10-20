@@ -63,7 +63,8 @@ map('n', '<leader>c', ':e $MYVIMRC<CR>', {desc = 'Config'})
 map('n', '<leader>e', ':NvimTreeToggle<CR>', {desc = 'Files'})
 map('n', '<leader>s', ':Lazy sync<CR>', {desc = 'Update Plugins'})
 map('n', '<leader>n', ':enew <BAR> startinsert<CR>', {desc = 'New File'})
-map({'n','v'}, '<leader>k', ':CommentToggle<CR>', {desc = 'Comment'})
+map({'n'}, '<Leader>k', 'gcc', {desc = 'Comment', remap = true})
+map({'v'}, '<Leader>k', 'gc', {desc = 'Comment', remap = true})
 map({'i','n','v'}, '<C-s>', '<ESC>:w<CR><ESC>')
 map({'i','n','v'}, '<C-w>', '<ESC>:bd<CR><ESC>')
 map({'i','n','v'}, '<C-q>', '<ESC>:q!<CR>')
@@ -142,9 +143,7 @@ local plugins = {
   {'kyazdani42/nvim-tree.lua', cmd = 'NvimTreeToggle', opts = {}},
   -- Git
   {'lewis6991/gitsigns.nvim', event = {'BufRead', 'BufNewFile'}, dependencies = 'nvim-lua/plenary.nvim', opts = {}},
-  -- Comment
-  {'terrortylor/nvim-comment', name = 'nvim_comment', event = {'BufRead', 'BufNewFile'}, opts = {comment_empty = false}},
-  -- Key
+  -- Help
   {'echasnovski/mini.clue', keys = '<leader>', opts = {triggers = {{mode = 'n', keys = '<Leader>'}, {mode = 'x', keys = '<Leader>'}}}},
   -- Dashboard
   {
