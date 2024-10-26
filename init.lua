@@ -88,7 +88,6 @@ local function lsp_setup()
     -- LSP Keymaps
     map('n', 'gd', vim.lsp.buf.definition, {desc = 'Goto Definition'})
     map('n', 'gr', vim.lsp.buf.references, {desc = 'References'})
-    map('n', 'K', vim.lsp.buf.hover, {desc = 'Hover'})
     map('n', '<leader>f', vim.lsp.buf.format, {desc = 'Format'})
     map('v', '<leader>f', vim.lsp.buf.format, {desc = 'Format'})
     map('n', '<leader>la', vim.lsp.buf.code_action, {desc = 'Action'})
