@@ -34,6 +34,9 @@ o.sb = true
 o.mouse = 'a'
 o.ru = false
 
+-- COLORSCHEMES
+vim.cmd('colorscheme retrobox')
+
 -- AUTOCOMMANDS
 api.nvim_create_autocmd('TextYankPost', {pattern = '*', command = 'lua vim.highlight.on_yank()'}) -- highlight on yank
 api.nvim_create_autocmd({'FocusGained', 'TermClose', 'TermLeave'}, {command = 'checktime'}) -- reload changed file
@@ -118,8 +121,6 @@ end
 
 -- PLUGINS
 local plugins = {
-  -- Colorschemes
-  {'tanvirtin/monokai.nvim', config = function() vim.cmd('colorscheme monokai') end},
   -- Statusline
   {
     'nvim-lualine/lualine.nvim',
