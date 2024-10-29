@@ -8,7 +8,6 @@ local map = vim.keymap.set
 
 o.nu = true -- Line Number
 o.rnu = false -- Relative line number
-o.tgc = true
 o.tm = 500
 o.ut = 500
 o.scl = 'yes'
