@@ -136,7 +136,7 @@ local plugins = {
   -- Treesitter
   {
     'nvim-treesitter/nvim-treesitter', build = ':TSUpdate', event = {'BufRead', 'InsertEnter'},
-    config = function() require('nvim-treesitter.configs').setup {ensure_installed = {'bash', 'lua', 'python'}, highlight = {enable = true, disable = {''}}, autopairs = {enable = true}} end
+    config = function() require('nvim-treesitter.configs').setup {highlight = {enable = true, disable = {''}}, autopairs = {enable = true}} end
   },
   {'windwp/nvim-autopairs', event = 'InsertEnter', opts = {}},
   -- NVimTree
