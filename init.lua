@@ -112,9 +112,6 @@ local function lsp_setup()
 
   -- Set up servers
   local lspconfig = require('lspconfig')
-  local lspwin = require('lspconfig.ui.windows')
-  lspwin.default_options.border = 'single'
-
   lspconfig.pyright.setup {on_attach = on_attach, capabilities = capabilities}
   lspconfig.fortls.setup {on_attach = on_attach, capabilities = capabilities}
   lspconfig.lua_ls.setup {on_attach = on_attach, capabilities = capabilities}
