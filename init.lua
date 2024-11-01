@@ -36,7 +36,7 @@ o.mouse = 'a'
 o.ru = false
 
 -- COLORSCHEMES
-vim.cmd('colorscheme retrobox')
+vim.cmd('colorscheme habamax')
 
 -- AUTOCOMMANDS
 api.nvim_create_autocmd('TextYankPost', {pattern = '*', command = 'lua vim.highlight.on_yank()'}) -- highlight on yank
