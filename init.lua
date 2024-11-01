@@ -126,10 +126,10 @@ local plugins = {
     }
   },
   -- Treesitter
-  -- {
-  --   'nvim-treesitter/nvim-treesitter', build = ':TSUpdate', event = {'BufRead', 'InsertEnter'},
-  --   config = function() require('nvim-treesitter.configs').setup {highlight = {enable = true, disable = {''}}, autopairs = {enable = true}} end
-  -- },
+  {
+    'nvim-treesitter/nvim-treesitter', build = ':TSUpdate', event = {'BufRead', 'InsertEnter'},
+    config = function() require('nvim-treesitter.configs').setup {highlight = {enable = true, disable = {''}}, autopairs = {enable = true}} end
+  },
   {'windwp/nvim-autopairs', event = 'InsertEnter', opts = {}},
   -- NVimTree
   {'kyazdani42/nvim-tree.lua', cmd = 'NvimTreeToggle', opts = {}},
