@@ -139,7 +139,7 @@ local plugins = {
   -- NVimTree
   {'kyazdani42/nvim-tree.lua', cmd = 'NvimTreeToggle', opts = {}},
   -- Git
-  {'lewis6991/gitsigns.nvim', event = {'BufRead', 'BufNewFile'}, dependencies = 'nvim-lua/plenary.nvim', opts = {}},
+  {'lewis6991/gitsigns.nvim', event = {'BufRead', 'BufNewFile'}, opts = {}},
   -- Help
   {'echasnovski/mini.clue', keys = '<leader>', opts = {triggers = {{mode = 'n', keys = '<Leader>'}, {mode = 'x', keys = '<Leader>'}}}},
   -- Dashboard
