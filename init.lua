@@ -74,21 +74,23 @@ map({'i','n','v'}, '<C-q>', '<ESC>:q!<CR>')
 
 -- LSP
 local function lsp_setup()
-  local function lsp_init()
-    -- Diagnostic Signs
-    local signs = {Error = '', Warn = '', Hint = '󰌬', Info = ''}
-    for type, icon in pairs(signs) do
-      local hl = 'DiagnosticSign' .. type
-      vim.fn.sign_define(hl, {text = icon, texthl = hl, numhl = ''})
-    end
-
-    vim.diagnostic.config({signs = {active = signs}, severity_sort = true, float = {}})
-    vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {})
-    vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {})
+  -- Diagnostic Signs
+  local signs = {Error = '', Warn = '', Hint = '󰌬', Info = ''}
+  for type, icon in pairs(signs) do
+    local hl = 'DiagnosticSign' .. type
+    vim.fn.sign_define(hl, {text = icon, texthl = hl, numhl = ''})
   end
 
+  vim.diagnostic.config({signs = {active = signs}, severity_sort = true, float = {}})
+  vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {})
+  vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {})
+
+  -- Servers
+  local capabilities = require('cmp_nvim_lsp').default_capabilities()
+  require('mason-lspconfig').setup {automatic_installation = true}
+
   local function on_attach(client, bufnr)
-    -- LSP Keymaps
+    -- Keymaps
     map('n', 'gd', vim.lsp.buf.definition, {desc = 'Goto Definition'})
     map('n', 'gr', vim.lsp.buf.references, {desc = 'References'})
     map('n', '<leader>f', vim.lsp.buf.format, {desc = 'Format'})
@@ -97,20 +99,13 @@ local function lsp_setup()
     map('n', '<leader>lr', vim.lsp.buf.rename, {desc = 'Rename'})
     map('n', '<leader>li', ':LspInfo<CR>', {desc = 'Connected Servers'})
 
-    -- Disable Formatting for sumneko-lua
+    -- disable formatting for lua_ls
     if client.name == 'lua_ls' then
       client.server_capabilities.documentFormattingProvider = false
       client.server_capabilities.documentRangeFormattingProvider = false
     end
   end
 
-  -- LSP setup --
-  lsp_init()
-
-  local capabilities = require('cmp_nvim_lsp').default_capabilities()
-  require('mason-lspconfig').setup({automatic_installation = true})
-
-  -- Set up servers
   local lspconfig = require('lspconfig')
   lspconfig.pyright.setup {on_attach = on_attach, capabilities = capabilities}
   lspconfig.fortls.setup {on_attach = on_attach, capabilities = capabilities}
@@ -185,15 +180,15 @@ local plugins = {
           })
 
           -- Load Snippets
-          require('luasnip.loaders.from_snipmate').lazy_load({ paths = snip_folder })
-          -- require('luasnip.loaders.from_vscode').lazy_load({ paths = snip_folder })
-          -- require('luasnip.loaders.from_lua').lazy_load({ paths = snip_folder })
+          require('luasnip.loaders.from_snipmate').lazy_load { paths = snip_folder }
+          -- require('luasnip.loaders.from_vscode').lazy_load { paths = snip_folder }
+          -- require('luasnip.loaders.from_lua').lazy_load { paths = snip_folder }
         end
       },
     },
     config = function()
       local cmp = require('cmp')
-      cmp.setup({
+      cmp.setup {
         completion = {completeopt = 'menu,menuone,noselect,noinsert'},
         snippet = {
           expand = function(args)
@@ -213,7 +208,7 @@ local plugins = {
           {name = 'buffer'},
           {name = 'path'},
         },
-      })
+      }
       cmp.setup.cmdline('/', {mapping = cmp.mapping.preset.cmdline(), sources = {{name = 'buffer'}}})
       cmp.setup.cmdline(':', {mapping = cmp.mapping.preset.cmdline(), sources = cmp.config.sources{{name = 'path'}, {name = 'cmdline'}}})
     end
@@ -225,7 +220,7 @@ local plugins = {
     event = {'BufReadPre', 'BufNewFile'},
     dependencies = {
       {'williamboman/mason.nvim', build = ':MasonUpdate', opts = {ensure_installed = {}}},
-      'williamboman/mason-lspconfig.nvim', 'hrsh7th/nvim-cmp','hrsh7th/cmp-nvim-lsp',
+      'williamboman/mason-lspconfig.nvim', 'hrsh7th/nvim-cmp','hrsh7th/cmp-nvim-lsp','nvim-lua/plenary.nvim',
       {
         'nvimtools/none-ls.nvim',
         config = function()
