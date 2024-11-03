@@ -81,7 +81,7 @@ local function lsp_setup()
     vim.fn.sign_define(hl, {text = icon, texthl = hl, numhl = ''})
   end
 
-  vim.diagnostic.config({signs = {active = signs}, severity_sort = true, float = {}})
+  vim.diagnostic.config({severity_sort = true, float = {}})
   vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {})
   vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {})
 
