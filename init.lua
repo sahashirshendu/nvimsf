@@ -213,8 +213,8 @@ local plugins = {
     enabled = lsp,
     event = {'BufReadPre', 'BufNewFile'},
     dependencies = {
-      {'williamboman/mason.nvim', build = ':MasonUpdate', opts = {ensure_installed = {}}},
-      'williamboman/mason-lspconfig.nvim', 'hrsh7th/nvim-cmp','hrsh7th/cmp-nvim-lsp','nvim-lua/plenary.nvim',
+      {'mason-org/mason.nvim', build = ':MasonUpdate', opts = {ensure_installed = {}}},
+      'mason-org/mason-lspconfig.nvim', 'hrsh7th/nvim-cmp','hrsh7th/cmp-nvim-lsp','nvim-lua/plenary.nvim',
       {
         'nvimtools/none-ls.nvim',
         config = function()
