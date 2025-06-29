@@ -80,8 +80,6 @@ local function lsp_setup()
 
   -- Servers
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
-  require('mason-lspconfig').setup {automatic_installation = true}
-
   local function on_attach(client, bufnr)
     -- Keymaps
     map('n', 'gd', vim.lsp.buf.definition, {desc = 'Goto Definition'})
@@ -161,16 +159,9 @@ local plugins = {
         dependencies = {'saadparwaiz1/cmp_luasnip'},
         build = 'make install_jsregexp',
         config = function()
-          local luasnip = require('luasnip')
           local snip_folder = vim.fn.stdpath('config') .. '/snippets/'
           api.nvim_create_user_command('LuaSnipEdit', 'lua require("luasnip.loaders").edit_snippet_files()', {})
-
-          luasnip.config.set_config({
-            history = true,
-            enable_autosnippets = true,
-            update_events = 'TextChanged,TextChangedI',
-            store_selection_keys = '<C-q>',
-          })
+          require('luasnip').setup({history = true, enable_autosnippets = true, update_events = {'TextChanged', 'TextChangedI'}, store_selection_keys = '<C-q>'})
 
           -- Load Snippets
           require('luasnip.loaders.from_snipmate').lazy_load { paths = snip_folder }
@@ -213,7 +204,8 @@ local plugins = {
     event = {'BufReadPre', 'BufNewFile'},
     dependencies = {
       {'mason-org/mason.nvim', build = ':MasonUpdate', opts = {ensure_installed = {}}},
-      'mason-org/mason-lspconfig.nvim', 'hrsh7th/nvim-cmp','hrsh7th/cmp-nvim-lsp','nvim-lua/plenary.nvim',
+      {'mason-org/mason-lspconfig.nvim', opts = {automatic_enable = true}},
+      'hrsh7th/nvim-cmp','hrsh7th/cmp-nvim-lsp','nvim-lua/plenary.nvim',
       {
         'nvimtools/none-ls.nvim',
         config = function()
