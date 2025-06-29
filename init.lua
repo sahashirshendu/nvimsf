@@ -32,8 +32,9 @@ o.swf = false
 o.hi = 100
 o.spr = true
 o.sb = true
-o.mouse = 'a'
 o.ru = false
+o.mouse = 'a'
+o.winborder = 'single'
 
 -- COLORSCHEMES
 vim.cmd('colorscheme habamax')
@@ -76,8 +77,6 @@ map({'i','n','v'}, '<C-q>', '<ESC>:q!<CR>')
 local function lsp_setup()
   -- Diagnostic Signs
   vim.diagnostic.config({signs = { text = { [vim.diagnostic.severity.ERROR] = "󰅚", [vim.diagnostic.severity.WARN] = "", [vim.diagnostic.severity.HINT] = "", [vim.diagnostic.severity.INFO] = "" } }, severity_sort = true, float = {}})
-  vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {})
-  vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {})
 
   -- Servers
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
