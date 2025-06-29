@@ -76,10 +76,11 @@ map({'i','n','v'}, '<C-q>', '<ESC>:q!<CR>')
 -- LSP
 local function lsp_setup()
   -- Diagnostic Signs
-  vim.diagnostic.config({signs = { text = { [vim.diagnostic.severity.ERROR] = "󰅚", [vim.diagnostic.severity.WARN] = "", [vim.diagnostic.severity.HINT] = "", [vim.diagnostic.severity.INFO] = "" } }, severity_sort = true, float = {}})
+  vim.diagnostic.config({signs = { text = { [vim.diagnostic.severity.ERROR] = '󰅚', [vim.diagnostic.severity.WARN] = '', [vim.diagnostic.severity.HINT] = '', [vim.diagnostic.severity.INFO] = '' } }, severity_sort = true, float = {}})
+
 
   -- Servers
-  local capabilities = require('cmp_nvim_lsp').default_capabilities()
+  local capabilities = require('blink.cmp').get_lsp_capabilities()
   local function on_attach(client, bufnr)
     -- Keymaps
     map('n', 'gd', vim.lsp.buf.definition, {desc = 'Goto Definition'})
@@ -176,8 +177,7 @@ local plugins = {
       completion = {
         accept = {auto_brackets = {enabled = true}},
         documentation = {auto_show = true},
-        menu = {draw = {columns = {{'label', 'label_description', 'source_name', gap = 1}}},
-        },
+        menu = {draw = {columns = {{'label', 'label_description', 'source_name', gap = 1}}}},
       },
       signature = {enabled = true},
       snippets = {preset = 'luasnip'},
@@ -191,7 +191,7 @@ local plugins = {
     dependencies = {
       {'mason-org/mason.nvim', build = ':MasonUpdate', opts = {ensure_installed = {}}},
       {'mason-org/mason-lspconfig.nvim', opts = {automatic_enable = true}},
-      'hrsh7th/nvim-cmp','hrsh7th/cmp-nvim-lsp','nvim-lua/plenary.nvim',
+      'saghen/blink.cmp', 'nvim-lua/plenary.nvim',
       {
         'nvimtools/none-ls.nvim',
         config = function()
