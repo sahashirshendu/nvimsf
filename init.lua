@@ -73,37 +73,6 @@ map({'i','n','v'}, '<C-s>', '<ESC>:w<CR><ESC>')
 map({'i','n','v'}, '<C-w>', '<ESC>:bd<CR><ESC>')
 map({'i','n','v'}, '<C-q>', '<ESC>:q!<CR>')
 
--- LSP
-local function lsp_setup()
-  -- Diagnostic Signs
-  vim.diagnostic.config({signs = { text = { [vim.diagnostic.severity.ERROR] = '󰅚', [vim.diagnostic.severity.WARN] = '', [vim.diagnostic.severity.HINT] = '', [vim.diagnostic.severity.INFO] = '' } }, severity_sort = true, float = {}})
-
-
-  -- Servers
-  local capabilities = require('blink.cmp').get_lsp_capabilities()
-  local function on_attach(client, bufnr)
-    -- Keymaps
-    map('n', 'gd', vim.lsp.buf.definition, {desc = 'Goto Definition'})
-    map('n', 'gr', vim.lsp.buf.references, {desc = 'References'})
-    map('n', '<leader>f', vim.lsp.buf.format, {desc = 'Format'})
-    map('v', '<leader>f', vim.lsp.buf.format, {desc = 'Format'})
-    map('n', '<leader>la', vim.lsp.buf.code_action, {desc = 'Action'})
-    map('n', '<leader>lr', vim.lsp.buf.rename, {desc = 'Rename'})
-    map('n', '<leader>li', ':LspInfo<CR>', {desc = 'Connected Servers'})
-
-    -- disable formatting for lua_ls
-    if client.name == 'lua_ls' then
-      client.server_capabilities.documentFormattingProvider = false
-      client.server_capabilities.documentRangeFormattingProvider = false
-    end
-  end
-
-  local lspconfig = require('lspconfig')
-  lspconfig.pyright.setup {on_attach = on_attach, capabilities = capabilities}
-  lspconfig.fortls.setup {on_attach = on_attach, capabilities = capabilities}
-  lspconfig.lua_ls.setup {on_attach = on_attach, capabilities = capabilities}
-end
-
 -- PLUGINS
 local plugins = {
   -- Statusline
@@ -201,7 +170,32 @@ local plugins = {
         end,
       },
     },
-    config = lsp_setup,
+    config = function()
+      -- Diagnostic Signs
+      vim.diagnostic.config({signs = { text = { [vim.diagnostic.severity.ERROR] = '󰅚', [vim.diagnostic.severity.WARN] = '', [vim.diagnostic.severity.HINT] = '', [vim.diagnostic.severity.INFO] = '' } }, severity_sort = true, float = {}})
+
+      -- Servers
+      local function on_attach(client, bufnr)
+        -- Keymaps
+        map('n', 'gd', vim.lsp.buf.definition, {desc = 'Goto Definition'})
+        map('n', 'gr', vim.lsp.buf.references, {desc = 'References'})
+        map('n', '<leader>f', vim.lsp.buf.format, {desc = 'Format'})
+        map('v', '<leader>f', vim.lsp.buf.format, {desc = 'Format'})
+        map('n', '<leader>la', vim.lsp.buf.code_action, {desc = 'Action'})
+        map('n', '<leader>lr', vim.lsp.buf.rename, {desc = 'Rename'})
+        map('n', '<leader>li', ':LspInfo<CR>', {desc = 'Connected Servers'})
+
+        -- Disable formatting for lua_ls
+        if client.name == 'lua_ls' then
+          client.server_capabilities.documentFormattingProvider = false
+          client.server_capabilities.documentRangeFormattingProvider = false
+        end
+      end
+
+      local capabilities = require('blink.cmp').get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities())
+      vim.lsp.config('*', {on_attach = on_attach, capabilities = capabilities})
+      vim.lsp.enable({'fortls', 'pyright', 'lua_ls'})
+    end,
   },
 }
 
