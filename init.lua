@@ -91,7 +91,7 @@ local plugins = {
   },
   {'windwp/nvim-autopairs', event = 'InsertEnter', opts = {}},
   -- NVimTree
-  {'kyazdani42/nvim-tree.lua', cmd = 'NvimTreeToggle', opts = {}},
+  {'nvim-tree/nvim-tree.lua', cmd = 'NvimTreeToggle', opts = {}},
   -- Git
   {'lewis6991/gitsigns.nvim', event = {'BufRead', 'BufNewFile'}, opts = {}},
   -- Help
