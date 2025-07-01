@@ -6,8 +6,8 @@ local o = vim.opt
 local api = vim.api
 local map = vim.keymap.set
 
-o.nu = true -- Line Number
-o.rnu = false -- Relative line number
+o.nu = true -- line number
+o.rnu = false -- relative line number
 o.tgc = true
 o.tm = 500
 o.ut = 500
