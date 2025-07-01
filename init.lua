@@ -5,12 +5,10 @@ local lsp = false
 local o = vim.opt
 local api = vim.api
 local map = vim.keymap.set
+local aucmd = vim.api.nvim_create_autocmd
 
 o.nu = true -- line number
 o.rnu = false -- relative line number
-o.tgc = true
-o.tm = 500
-o.ut = 500
 o.scl = 'yes'
 o.cul = true
 o.et = true
@@ -40,12 +38,12 @@ o.winborder = 'single'
 vim.cmd('colorscheme habamax')
 
 -- AUTOCOMMANDS
-api.nvim_create_autocmd('TextYankPost', {pattern = '*', command = 'lua vim.highlight.on_yank()'}) -- highlight on yank
-api.nvim_create_autocmd({'FocusGained', 'TermClose', 'TermLeave'}, {command = 'checktime'}) -- reload changed file
-api.nvim_create_autocmd({'BufWinEnter', 'BufEnter'}, {command = 'set formatoptions-=cro'}) -- don't auto comment new line
-api.nvim_create_autocmd('TermOpen', {pattern = '*', command = 'startinsert'}) -- open terminal in insert mode
-api.nvim_create_autocmd('BufReadPost', {command = [[if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif]]}) -- restore cursor position
-api.nvim_create_autocmd('FileType', {pattern = {'checkhealth', 'help', 'lspinfo', 'man', 'qf', 'startuptime'}, command = 'nnoremap <buffer><silent> q :q!<CR>'}) -- windows to close with 'q'
+aucmd('TextYankPost', {pattern = '*', command = 'lua vim.highlight.on_yank()'}) -- highlight on yank
+aucmd({'FocusGained', 'TermClose', 'TermLeave'}, {command = 'checktime'}) -- reload changed file
+aucmd({'BufWinEnter', 'BufEnter'}, {command = 'set formatoptions-=cro'}) -- don't auto comment new line
+aucmd('TermOpen', {pattern = '*', command = 'startinsert'}) -- open terminal in insert mode
+aucmd('BufReadPost', {command = [[if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif]]}) -- restore cursor position
+aucmd('FileType', {pattern = {'checkhealth', 'help', 'lspinfo', 'man', 'qf', 'startuptime'}, command = 'nnoremap <buffer><silent> q :q!<CR>'}) -- windows to close with 'q'
 
 -- KEYBINDINGS
 vim.g.mapleader = ','
@@ -66,7 +64,7 @@ map('!', '<C-h>', '<C-w>')
 map('n', '<leader>c', ':e $MYVIMRC<CR>', {desc = 'Config'})
 map('n', '<leader>e', ':NvimTreeToggle<CR>', {desc = 'Files'})
 map('n', '<leader>s', ':Lazy sync<CR>', {desc = 'Update Plugins'})
-map('n', '<leader>n', ':enew <BAR> startinsert<CR>', {desc = 'New File'})
+map('n', '<leader>n', ':ene <BAR> startinsert<CR>', {desc = 'New File'})
 map('n', '<Leader>k', 'gcc', {desc = 'Comment', remap = true})
 map('v', '<Leader>k', 'gc', {desc = 'Comment', remap = true})
 map({'i','n','v'}, '<C-s>', '<ESC>:w<CR><ESC>')
